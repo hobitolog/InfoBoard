@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <title>InfoBoard</title>
+</head>
+
+<body>
+
+    <div class="container p-2 my-2 rounded border">
+        Loading...
+        //TODO załadować tu liste
+    </div>
+
+    <div class="container p-2 rounded border">
+        <form action="/addSchedule" method="POST">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" class="form-control" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label>Start Time</label>
+                <input type="text" name="start" class="form-control" placeholder="* * * * * *">
+            </div>
+            <div class="form-group">
+                <label>Stop Time</label>
+                <input type="text" name="stop" class="form-control" placeholder="* * * * * *">
+            </div>
+            <div class="form-group">
+                <label>Uri</label>
+                <input type="text" name="uri" class="form-control" placeholder="file.jpg">
+            </div>
+            <div class="form-group">
+                <label>Priority</label>
+                <input type="text" name="priority" class="form-control" placeholder="1-100">
+            </div>
+            <button type="submit" class="btn btn-primary">Add to schedule</button>
+        </form>
+
+    </div>
+
+</body>
+
+</html>
