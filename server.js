@@ -22,10 +22,24 @@ app.get('/schedule', (req, res) => {
 
 app.post('/addSchedule', (req, res) => {
 
+    var startTime = valueOrAsterisk(req.body.startSeconds) + " " +
+    valueOrAsterisk(req.body.startMinutes) + " " + 
+    valueOrAsterisk(req.body.startHours) + " " +
+    valueOrAsterisk(req.body.startDoM) + " " +
+    valueOrAsterisk(req.body.startMonths) + " " +
+    valueOrAsterisk(req.body.startDoW)
+
+    var stopTime = valueOrAsterisk(req.body.stopSeconds) + " " +
+    valueOrAsterisk(req.body.stopMinutes) + " " + 
+    valueOrAsterisk(req.body.stopHours) + " " +
+    valueOrAsterisk(req.body.stopDoM) + " " +
+    valueOrAsterisk(req.body.stopMonths) + " " +
+    valueOrAsterisk(req.body.stopDoW)
+
     schedule.addToSchedule({
         "name": req.body.name,
-        "start": req.body.start,
-        "stop": req.body.stop,
+        "start": startTime,
+        "stop": stopTime,
         "uri": req.body.uri,
         "priority": req.body.priority
     })
@@ -36,3 +50,11 @@ app.post('/addSchedule', (req, res) => {
 app.listen(80, function () {
     console.log("Server started")
 })
+
+function valueOrAsterisk(value)
+{
+    if(value)
+        return value
+    else
+        return "*"
+}
