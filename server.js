@@ -16,6 +16,10 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, "/html", "index.html"))
 })
 
+app.get('/schedule', (req, res) => {
+     res.json(schedule.getNameList())
+})
+
 app.post('/addSchedule', (req, res) => {
 
     schedule.addToSchedule({

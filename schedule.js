@@ -5,6 +5,15 @@ var schedule = {
     elements: []
 }
 
+function getNameList()
+{
+    var list = []
+    schedule.elements.forEach((element, index) => {
+        list.push(element.name)
+    })
+    return list
+}
+
 function add(event)
 {
     schedule.elements.push(event)
@@ -28,6 +37,7 @@ function load() {
 
 module.exports = {
     addToSchedule: add,
+    getNameList: getNameList,
     load: load,
     save: save
 }
