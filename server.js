@@ -1,13 +1,13 @@
 const path = require('path')
 const url = require('url')
+const fs = require('fs')
 
 const schedule = require('./schedule')
 schedule.load()
 
-const multer = require('multer')
+const formidable = require('formidable')
 const express = require('express')
 const morgan = require('morgan')
-const upload = multer({ dest: 'uploads/' })
 
 const app = express()
 
@@ -22,54 +22,93 @@ app.get('/schedule', (req, res) => {
     res.json(schedule.getNameList())
 })
 
-app.post('/addSchedule', upload.single('file'), (req, res) => {
+app.post('/addSchedule', (req, res) => {
 
     const allowedChars = "123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        + "ąćęśżźńół_-+=<>,.?"
+        + "ąćęśżźńół_-+=,."
 
-    const name = req.body.name
+    const form = new formidable.IncomingForm()
+    form.uploadDir = path.join(__dirname, '/uploads')
 
-    for (let i = 0; i < name.length; i++) {
-        const char = name.charAt(i)
-        if (!allowedChars.includes(char)) {
-            const errorMsg = "Login zawiera niedozwolony znak: '" + char + "'"
-            return res.redirect(url.format({
-                pathname: "/",
-                query: {
-                    "err": errorMsg
-                }
-            }))
+    form.parse(req, function (err, fields, files) {
+
+        console.log(fields, files)
+
+        const name = fields.name
+
+        for (let i = 0; i < name.length; i++) {
+            const char = name.charAt(i)
+            if (!allowedChars.includes(char)) {
+                const errorMsg = "Nazwa zawiera niedozwolony znak: '" + char + "'"
+                return res.redirect(url.format({
+                    pathname: "/",
+                    query: {
+                        "err": errorMsg
+                    }
+                }))
+            }
         }
-    }
 
-    const startTime = valueOrAsterisk(req.body.startSeconds) + " " +
-        valueOrAsterisk(req.body.startMinutes) + " " +
-        valueOrAsterisk(req.body.startHours) + " " +
-        valueOrAsterisk(req.body.startDoM) + " " +
-        valueOrAsterisk(req.body.startMonths) + " " +
-        valueOrAsterisk(req.body.startDoW)
+        let uri = ""
+        let message = ""
+        switch (fields.contentType) {
+            case "remote":
+            case "youtube":
+                uri = fields.url
+                break
+            case "video":
+            case "image":
+                uri = handleFileUpload(files.file, name)
+                break
+            case "bar":
+                message = fields.message
+                break
+            case "clock":
+                break
+        }
 
-    const stopTime = valueOrAsterisk(req.body.stopSeconds) + " " +
-        valueOrAsterisk(req.body.stopMinutes) + " " +
-        valueOrAsterisk(req.body.stopHours) + " " +
-        valueOrAsterisk(req.body.stopDoM) + " " +
-        valueOrAsterisk(req.body.stopMonths) + " " +
-        valueOrAsterisk(req.body.stopDoW)
+        if (files.file.size == 0) {
+            fs.unlink(files.file.path)
+        }
 
-    schedule.addToSchedule({
-        "name": name,
-        "start": startTime,
-        "stop": stopTime,
-        "uri": req.body.uri,
-        "priority": req.body.priority
+        const startTime = valueOrAsterisk(fields.startSeconds) + " " +
+            valueOrAsterisk(fields.startMinutes) + " " +
+            valueOrAsterisk(fields.startHours) + " " +
+            valueOrAsterisk(fields.startDoM) + " " +
+            valueOrAsterisk(fields.startMonths) + " " +
+            valueOrAsterisk(fields.startDoW)
+
+        const stopTime = valueOrAsterisk(fields.stopSeconds) + " " +
+            valueOrAsterisk(fields.stopMinutes) + " " +
+            valueOrAsterisk(fields.stopHours) + " " +
+            valueOrAsterisk(fields.stopDoM) + " " +
+            valueOrAsterisk(fields.stopMonths) + " " +
+            valueOrAsterisk(fields.stopDoW)
+
+        schedule.addToSchedule({
+            "name": name,
+            "start": startTime,
+            "stop": stopTime,
+            "type": fields.contentType,
+            "uri": uri,
+            "message": message,
+            "priority": fields.priority
+        })
+
+        res.redirect('/')
     })
-
-    res.redirect('/')
 })
 
 app.listen(80, function () {
     console.log("Server started")
 })
+
+function handleFileUpload(file, name) {
+    const filename = name + "." + file.name.split('.').slice(-1)[0]
+    const filepath = path.join(__dirname, '/uploads', filename)
+    fs.rename(file.path, filepath)
+    return filepath
+}
 
 function valueOrAsterisk(value) {
     if (value)

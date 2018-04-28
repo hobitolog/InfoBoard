@@ -20,7 +20,7 @@
     </div>
 
     <div class="container p-2 rounded border">
-        <form method="POST" action="/addSchedule">
+        <form method="POST" action="/addSchedule" enctype="multipart/form-data">
             <div class="form-group">
                 <label>Name</label>
                 <input type="text" name="name" class="form-control" placeholder="Name">
@@ -87,8 +87,41 @@
 
             <div class="form-group">
                 <label>Content Type</label>
+                <div class="container row pb-2">
+                    <div id="radios" class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label id="image" class="btn btn-info active">
+                            <input type="radio" name="contentType" value="image" autocomplete="off" checked> Upload image
+                        </label>
+                        <label id="video" class="btn btn-info">
+                            <input type="radio" name="contentType" value="video" autocomplete="off"> Upload video
+                        </label>
+                        <label id="remote" class="btn btn-info">
+                            <input type="radio" name="contentType" value="remote" autocomplete="off"> Remote URL
+                        </label>
+                        <label id="youtube" class="btn btn-info">
+                            <input type="radio" name="contentType" value="youtube" autocomplete="off"> Youtube URL
+                        </label>
+                        <label id="bar" class="btn btn-info">
+                            <input type="radio" name="contentType" value="bar" autocomplete="off"> Message Bar
+                        </label>
+                        <label id="clock" class="btn btn-info">
+                            <input type="radio" name="contentType" value="clock" autocomplete="off"> Clock
+                        </label>
+                    </div>
+                </div>
 
-                <input type="text" name="uri" class="form-control" placeholder="file.jpg">
+                <div id="inputs">
+                    <div id="inputURL" hidden>
+                        <input type="text" name="url" class="form-control" placeholder="Enter URL">
+                    </div>
+                    <div id="inputFile" class="border rounded p-2">
+                        <input type="file" name="file" placeholder="Choose file">
+                    </div>
+                    <div id="inputMessage" hidden>
+                        <input type="text" name="message" class="form-control" placeholder="Enter message">
+                    </div>
+                </div>
+
             </div>
             <div class="form-group">
                 <label>Priority</label>
@@ -96,7 +129,7 @@
             </div>
             <div id="errorAlert" class="alert alert-danger" role="alert" hidden>
             </div>
-            <input type="submit" class="btn btn-primary">Add to schedule</button>
+            <input type="submit" class="btn btn-info" value="Add to Schedule">
         </form>
 
     </div>
