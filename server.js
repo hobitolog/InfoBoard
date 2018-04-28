@@ -35,13 +35,6 @@ app.post('/addSchedule', (req, res) => {
         }
     }
 
-    req.body.name.forEach(char => {
-        if (!allowedChars.includes(char)) {
-            const errorMsg = "Login zawiera niedozwolony znak: '" + char + "'"
-            return res.json({ "error": errorMsg })
-        }
-    })
-
     const startTime = valueOrAsterisk(req.body.startSeconds) + " " +
         valueOrAsterisk(req.body.startMinutes) + " " +
         valueOrAsterisk(req.body.startHours) + " " +
