@@ -10,7 +10,7 @@ const app = express()
 
 app.use(express.static(path.join(__dirname, '/public')))
 app.use(morgan('dev'))
-app.use(bodyParser())
+app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, "/html", "index.html"))
@@ -21,6 +21,26 @@ app.get('/schedule', (req, res) => {
 })
 
 app.post('/addSchedule', (req, res) => {
+
+    const allowedChars = "123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        + "ąćęśżźńół_-+=<>,.?"
+
+    const name = req.body.name
+
+    for (let i = 0; i < name.length; i++) {
+        const char = name.charAt(i)
+        if (!allowedChars.includes(char)) {
+            const errorMsg = "Login zawiera niedozwolony znak: '" + char + "'"
+            return res.json({ "error": errorMsg })
+        }
+    }
+
+    req.body.name.forEach(char => {
+        if (!allowedChars.includes(char)) {
+            const errorMsg = "Login zawiera niedozwolony znak: '" + char + "'"
+            return res.json({ "error": errorMsg })
+        }
+    })
 
     const startTime = valueOrAsterisk(req.body.startSeconds) + " " +
         valueOrAsterisk(req.body.startMinutes) + " " +
@@ -44,7 +64,7 @@ app.post('/addSchedule', (req, res) => {
         "priority": req.body.priority
     })
 
-    res.redirect('/')
+    res.json({ "error": null })
 })
 
 app.listen(80, function () {

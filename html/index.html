@@ -20,7 +20,7 @@
     </div>
 
     <div class="container p-2 rounded border">
-        <form action="/addSchedule" method="POST">
+        <form id="addForm">
             <div class="form-group">
                 <label>Name</label>
                 <input type="text" name="name" class="form-control" placeholder="Name">
@@ -93,7 +93,9 @@
                 <label>Priority</label>
                 <input type="text" name="priority" class="form-control" placeholder="1-100">
             </div>
-            <button type="submit" class="btn btn-primary">Add to schedule</button>
+            <div id="errorAlert" class="alert alert-danger" role="alert" hidden>
+            </div>
+            <button id="addButton" type="button" class="btn btn-primary">Add to schedule</button>
         </form>
 
     </div>
