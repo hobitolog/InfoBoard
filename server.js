@@ -1,16 +1,18 @@
 const path = require('path')
+const url = require('url')
 
 const schedule = require('./schedule')
 schedule.load()
 
-const bodyParser = require('body-parser')
+const multer = require('multer')
 const express = require('express')
 const morgan = require('morgan')
+const upload = multer({ dest: 'uploads/' })
+
 const app = express()
 
 app.use(express.static(path.join(__dirname, '/public')))
 app.use(morgan('dev'))
-app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, "/html", "index.html"))
@@ -20,7 +22,7 @@ app.get('/schedule', (req, res) => {
     res.json(schedule.getNameList())
 })
 
-app.post('/addSchedule', (req, res) => {
+app.post('/addSchedule', upload.single('file'), (req, res) => {
 
     const allowedChars = "123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         + "ąćęśżźńół_-+=<>,.?"
@@ -31,7 +33,12 @@ app.post('/addSchedule', (req, res) => {
         const char = name.charAt(i)
         if (!allowedChars.includes(char)) {
             const errorMsg = "Login zawiera niedozwolony znak: '" + char + "'"
-            return res.json({ "error": errorMsg })
+            return res.redirect(url.format({
+                pathname: "/",
+                query: {
+                    "err": errorMsg
+                }
+            }))
         }
     }
 
@@ -50,14 +57,14 @@ app.post('/addSchedule', (req, res) => {
         valueOrAsterisk(req.body.stopDoW)
 
     schedule.addToSchedule({
-        "name": req.body.name,
+        "name": name,
         "start": startTime,
         "stop": stopTime,
         "uri": req.body.uri,
         "priority": req.body.priority
     })
 
-    res.json({ "error": null })
+    res.redirect('/')
 })
 
 app.listen(80, function () {

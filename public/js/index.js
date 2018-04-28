@@ -2,21 +2,12 @@ window.onload = function () {
 
     updateList()
 
-    var errorAlert = document.getElementById('errorAlert')
-
-    document.getElementById('addButton').addEventListener("click", function () {
-        var addForm = document.getElementById('addForm')
-        var data = JSON.stringify(getFormData(addForm))
-        send('POST', '/addSchedule', data, function (response) {
-            if (response.error) {
-                errorAlert.innerText = response.error
-                errorAlert.hidden = false
-            }
-            else {
-                updateList()
-            }
-        })
-    })
+    var err = getQueryParameter("err")
+    if (err) {
+        var errorAlert = document.getElementById('errorAlert')
+        errorAlert.innerText = response.error
+        errorAlert.hidden = false
+    }
 
     console.log("Init completed")
 }
@@ -53,16 +44,6 @@ function updateList() {
     })
 }
 
-function getFormData(form) {
-    var inputs = form.getElementsByTagName('input')
-
-    var formData = {}
-    for (var i = 0; i < inputs.length; i++) {
-        formData[inputs[i].name] = inputs[i].value
-    }
-    return formData
-}
-
 function send(method, path, data, callback) {
     var req = new XMLHttpRequest()
     req.open(method, path, true)
@@ -74,4 +55,14 @@ function send(method, path, data, callback) {
         }
     }
     req.send(data)
+}
+
+function getQueryParameter(name) {
+    var query = window.location.search.substring(1)
+    var vars = query.split("&")
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=")
+        if (pair[0] == name) return pair[1]
+    }
+    return false
 }
