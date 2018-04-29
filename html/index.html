@@ -9,131 +9,31 @@
         crossorigin="anonymous">
     <title>InfoBoard</title>
     <script src="js/index.js"></script>
+    <style>
+        .event-element {
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
 
-    <div class="container p-2 my-2 rounded border">
-        <p id="loading">Loading...</p>
-        <ul id="eventList" class="list-group">
-        </ul>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6 p-2 m-2 rounded border">
+                <h3>Scheduled events:</h3>
+                <p id="loading">Loading...</p>
+                <ul id="eventList" class="list-group">
+                </ul>
+                <a class="btn btn-info mt-2" role="button" href="/addSchedule">Add new event</a>
+            </div>
+
+            <div class="col-md-5 p-2 m-2 rounded border">
+                //TODO podgląd
+            </div>
+        </div>
     </div>
-
-    <div class="container p-2 rounded border">
-        <form method="POST" action="/addSchedule" enctype="multipart/form-data">
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" name="name" class="form-control" placeholder="Name">
-            </div>
-            <div class="container rounded border">
-                <label>Start Time</label>
-                <div class="row p-2">
-                    <div class="form-group col p-1">
-                        <label>Hours</label>
-                        <input type="text" name="startHours" class="form-control" placeholder="0-23">
-                    </div>
-                    <div class="form-group col p-1">
-                        <label>Minutes</label>
-                        <input type="text" name="startMinutes" class="form-control" placeholder="0-59">
-                    </div>
-                    <div class="form-group col p-1">
-                        <label>Seconds</label>
-                        <input type="text" name="startSeconds" class="form-control" placeholder="0-59">
-                    </div>
-                    <div class="form-group col p-1">
-                        <label>Day of Month</label>
-                        <input type="text" name="startDoM" class="form-control" placeholder="1-31">
-                    </div>
-                    <div class="form-group col p-1">
-                        <label>Months</label>
-                        <input type="text" name="startMonths" class="form-control" placeholder="0-11">
-                    </div>
-                    <div class="form-group col p-1">
-                        <label>Days of Week</label>
-                        <input type="text" name="startDoW" class="form-control" placeholder="0-6">
-                    </div>
-                </div>
-            </div>
-
-            <div class="container rounded border mt-2">
-                <label>Stop Time</label>
-                <div class="row p-2">
-                    <div class="form-group col p-1">
-                        <label>Hours</label>
-                        <input type="text" name="stopHours" class="form-control" placeholder="0-23">
-                    </div>
-                    <div class="form-group col p-1">
-                        <label>Minutes</label>
-                        <input type="text" name="stopMinutes" class="form-control" placeholder="0-59">
-                    </div>
-                    <div class="form-group col p-1">
-                        <label>Seconds</label>
-                        <input type="text" name="stopSeconds" class="form-control" placeholder="0-59">
-                    </div>
-                    <div class="form-group col p-1">
-                        <label>Day of Month</label>
-                        <input type="text" name="stopDoM" class="form-control" placeholder="1-31">
-                    </div>
-                    <div class="form-group col p-1">
-                        <label>Months</label>
-                        <input type="text" name="stopMonths" class="form-control" placeholder="0-11">
-                    </div>
-                    <div class="form-group col p-1">
-                        <label>Days of Week</label>
-                        <input type="text" name="stopDoW" class="form-control" placeholder="0-6">
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Content Type</label>
-                <div class="container row pb-2">
-                    <div id="radios" class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label id="image" class="btn btn-info active">
-                            <input type="radio" name="contentType" value="image" autocomplete="off" checked> Upload image
-                        </label>
-                        <label id="video" class="btn btn-info">
-                            <input type="radio" name="contentType" value="video" autocomplete="off"> Upload video
-                        </label>
-                        <label id="remote" class="btn btn-info">
-                            <input type="radio" name="contentType" value="remote" autocomplete="off"> Remote URL
-                        </label>
-                        <label id="youtube" class="btn btn-info">
-                            <input type="radio" name="contentType" value="youtube" autocomplete="off"> Youtube URL
-                        </label>
-                        <label id="bar" class="btn btn-info">
-                            <input type="radio" name="contentType" value="bar" autocomplete="off"> Message Bar
-                        </label>
-                        <label id="clock" class="btn btn-info">
-                            <input type="radio" name="contentType" value="clock" autocomplete="off"> Clock
-                        </label>
-                    </div>
-                </div>
-
-                <div id="inputs">
-                    <div id="inputURL" hidden>
-                        <input type="text" name="url" class="form-control" placeholder="Enter URL">
-                    </div>
-                    <div id="inputFile" class="border rounded p-2">
-                        <input type="file" name="file" placeholder="Choose file">
-                    </div>
-                    <div id="inputMessage" hidden>
-                        <input type="text" name="message" class="form-control" placeholder="Enter message">
-                    </div>
-                </div>
-
-            </div>
-            <div class="form-group">
-                <label>Priority</label>
-                <input type="text" name="priority" class="form-control" placeholder="1-100">
-            </div>
-            <div id="errorAlert" class="alert alert-danger" role="alert" hidden>
-            </div>
-            <input type="submit" class="btn btn-info" value="Add to Schedule">
-        </form>
-
-    </div>
-
 </body>
 
 </html>

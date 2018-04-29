@@ -22,10 +22,14 @@ app.get('/schedule', (req, res) => {
     res.json(schedule.getNameList())
 })
 
+app.get('/addSchedule', (req, res) => {
+    res.sendFile(path.join(__dirname, "/html", "add.html"))
+})
+
 app.post('/addSchedule', (req, res) => {
 
-    const allowedChars = "123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        + "ąćęśżźńół_-+=,."
+    const allowedChars = "123456789abcdefghijklmnopqrstuvwxyz" +
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ_-."
 
     const form = new formidable.IncomingForm()
     form.uploadDir = path.join(__dirname, '/uploads')
@@ -41,7 +45,7 @@ app.post('/addSchedule', (req, res) => {
             if (!allowedChars.includes(char)) {
                 const errorMsg = "Nazwa zawiera niedozwolony znak: '" + char + "'"
                 return res.redirect(url.format({
-                    pathname: "/",
+                    pathname: "/addSchedule",
                     query: {
                         "err": errorMsg
                     }

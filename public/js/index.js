@@ -1,61 +1,7 @@
-var labels
-
 window.onload = function () {
 
     updateList()
-
-    var err = getQueryParameter("err")
-    if (err) {
-        var errorAlert = document.getElementById('errorAlert')
-        errorAlert.innerText = response.error
-        errorAlert.hidden = false
-    }
-
-    labels = document.getElementById('radios').getElementsByTagName('label')
-    for (var i = 0; i < labels.length; i++) {
-        labels[i].addEventListener("click", onContentChanged)
-    }
-
     console.log("Init completed")
-}
-
-function onContentChanged() {
-
-    if (this.active) return
-
-    for (var i = 0; i < labels.length; i++) {
-        labels[i].classList.remove("active")
-        labels[i].getElementsByTagName('input').checked = false
-    }
-    this.classList.add("active")
-    this.getElementsByTagName('input').checked = true
-
-    var inputs = document.getElementById('inputs').children
-    for (var i = 0; i < inputs.length; i++) {
-        inputs[i].hidden = true
-    }
-
-    switch (this.id) {
-        case "remote":
-        case "youtube":
-            document.getElementById('inputURL').hidden = false
-            break
-        case "video":
-        case "image":
-            document.getElementById('inputFile').hidden = false
-            break
-        case "bar":
-            document.getElementById('inputMessage').hidden = false
-            break
-    }
-}
-
-function createListElement(name) {
-    var li = document.createElement('li')
-    li.classList.add('list-group-item')
-    li.innerText = name
-
-    return li
 }
 
 function updateList() {
@@ -78,8 +24,54 @@ function updateList() {
             var li = createListElement(response[i])
             ul.appendChild(li)
         }
-        loading.innerText = "Scheduled events:"
+        loading.innerText = ""
     })
+}
+
+function createListElement(element) {
+    var li = document.createElement('li')
+    li.classList.add('list-group-item', 'event-element', 'justify-content-between', 'align-items-center', 'd-flex', "list-group-item-action")
+    li.innerText = element.name
+    var time = document.createElement('span')
+    time.innerText = element.time
+    li.appendChild(time)
+    li.appendChild(createBadge(element.type))
+    li.addEventListener('click', function () {
+        window.location.href = '/editSchedule?name=' + element.name
+    })
+    return li
+}
+
+function createBadge(type) {
+    var span = document.createElement('span')
+    span.classList.add("badge", "badge-pill")
+    switch (type) {
+        case "remote":
+            span.classList.add("badge-info")
+            span.innerText = "Remote URL"
+            break
+        case "youtube":
+            span.classList.add("badge-danger")
+            span.innerText = "Youtube"
+            break
+        case "video":
+            span.classList.add("badge-success")
+            span.innerText = "Video"
+            break
+        case "image":
+            span.classList.add("badge-success")
+            span.innerText = "Image"
+            break
+        case "bar":
+            span.classList.add("badge-primary")
+            span.innerText = "Message Bar"
+            break
+        case "clock":
+            span.classList.add("badge-primary")
+            span.innerText = "Clock"
+            break
+    }
+    return span
 }
 
 function send(method, path, data, callback) {
@@ -93,14 +85,4 @@ function send(method, path, data, callback) {
         }
     }
     req.send(data)
-}
-
-function getQueryParameter(name) {
-    var query = window.location.search.substring(1)
-    var vars = query.split("&")
-    for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split("=")
-        if (pair[0] == name) return pair[1]
-    }
-    return false
 }

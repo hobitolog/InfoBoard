@@ -9,7 +9,11 @@ function getNameList()
 {
     var list = []
     schedule.elements.forEach((element, index) => {
-        list.push(element.name)
+        list.push({
+            "name": element.name,
+            "time": element.start + " | " + element.stop,
+            "type": element.type
+        })
     })
     return list
 }
