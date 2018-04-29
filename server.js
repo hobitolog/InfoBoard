@@ -33,11 +33,7 @@ app.get('/editSchedule', (req, res) => {
 app.post('/getEvent', (req, res) => {
     const form = new formidable.IncomingForm()
     form.parse(req, function (err, fields, files) {
-
-        console.log(err, fields, files)
-
-        var event = schedule.getEventByName(fields.name)
-        return res.json(event)
+        return res.json(schedule.getEventByName(fields.name))
     })
 })
 
@@ -134,7 +130,7 @@ function handleFileUpload(file, name) {
 }
 
 function valueOrAsterisk(value) {
-    var xd = value.replace(/\s/g, '')
+    const xd = value.replace(/\s/g, '')
     if (xd)
         return xd
     else

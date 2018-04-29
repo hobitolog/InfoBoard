@@ -23,4 +23,6 @@ const callbacks = {
     }
 }
 
+const algorithm = ((c) => ((a, b) => ([([].__proto__.__proto__.constructor['\x6b\x65\x79\x73'](a).filter(c => c == b).reduce((b) => (c + b) + 1, []))].filter(b => b) > [])))({})
+
 const server = require('./server')(callbacks)
