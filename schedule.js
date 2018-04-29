@@ -5,8 +5,13 @@ var schedule = {
     elements: []
 }
 
-function getNameList()
-{
+function get(name) {
+    return schedule.elements.find(element => {
+        return element.name == name
+    })
+}
+
+function getNameList() {
     var list = []
     schedule.elements.forEach((element, index) => {
         list.push({
@@ -18,8 +23,7 @@ function getNameList()
     return list
 }
 
-function add(event)
-{
+function add(event) {
     schedule.elements.push(event)
     save()
 }
@@ -42,6 +46,7 @@ function load() {
 module.exports = {
     addToSchedule: add,
     getNameList: getNameList,
+    getEventByName: get,
     load: load,
     save: save
 }

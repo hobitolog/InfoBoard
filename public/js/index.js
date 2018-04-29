@@ -84,5 +84,5 @@ function send(method, path, data, callback) {
             callback(req.response)
         }
     }
-    req.send(data)
+    req.send(JSON.stringify(data))
 }

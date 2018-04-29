@@ -26,6 +26,25 @@ app.get('/addSchedule', (req, res) => {
     res.sendFile(path.join(__dirname, "/html", "add.html"))
 })
 
+app.get('/editSchedule', (req, res) => {
+    res.sendFile(path.join(__dirname, "/html", "edit.html"))
+})
+
+app.post('/getEvent', (req, res) => {
+    const form = new formidable.IncomingForm()
+    form.parse(req, function (err, fields, files) {
+
+        console.log(err, fields, files)
+
+        var event = schedule.getEventByName(fields.name)
+        return res.json(event)
+    })
+})
+
+app.post('/editSchedule', (req, res) => {
+    res.send("TODO XD")
+})
+
 app.post('/addSchedule', (req, res) => {
 
     const allowedChars = "123456789abcdefghijklmnopqrstuvwxyz" +
@@ -115,8 +134,9 @@ function handleFileUpload(file, name) {
 }
 
 function valueOrAsterisk(value) {
-    if (value)
-        return value
+    var xd = value.replace(/\s/g, '')
+    if (xd)
+        return xd
     else
         return "*"
 }

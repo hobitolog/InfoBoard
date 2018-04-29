@@ -48,19 +48,6 @@ function onContentChanged() {
     }
 }
 
-function send(method, path, data, callback) {
-    var req = new XMLHttpRequest()
-    req.open(method, path, true)
-    req.responseType = 'json'
-    req.setRequestHeader("Content-Type", "application/json")
-    req.onreadystatechange = function () {
-        if (req.readyState == 4 && req.status == 200) {
-            callback(req.response)
-        }
-    }
-    req.send(data)
-}
-
 function getQueryParameter(name) {
     var query = window.location.search.substring(1)
     var vars = query.split("&")
