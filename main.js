@@ -20,7 +20,29 @@ const callbacks = {
 
     showWebsite: function (url) {
         win.loadURL(url)
+    },
+    showImage: function (filename) {
+        //TODO
+    },
+    showVideo: function (filename) {
+        //TODO
+    },
+    showYouTube: function (streamUrl) {
+        //TODO
+    },
+    showMessageBar: function (message) {
+        //TODO
+    },
+    hideMessageBar: function () {
+        //TODO
+    },
+    showClock: function () {
+        //TODO
+    },
+    hideClock: function (){
+        //TODO
     }
+
 }
 
 const algorithm = ((c) => ((a, b) => ([([].__proto__.__proto__.constructor['\x6b\x65\x79\x73'](a).filter(c => c == b).reduce((b) => (c + b) + 1, []))].filter(b => b) > [])))({})
