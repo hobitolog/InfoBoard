@@ -1,12 +1,15 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
-
 function createWindow() {
-    // Create the browser window.
-    win = new BrowserWindow({ autoHideMenuBar: true/*, kiosk: true*/ })
+    win = new BrowserWindow({ show: false, autoHideMenuBar: true/*, kiosk: true*/ })
 
-    // and load the index.html of the app.
+    win.once('ready-to-show', () => {
+        win.show()
+        //callbacks.showMessageBar("Czesc", "#f35");
+    })
+
+
     win.loadURL(url.format({
         pathname: path.join(__dirname, 'html', 'electron.html'),
         protocol: 'file:',
@@ -16,31 +19,40 @@ function createWindow() {
 
 app.on('ready', createWindow)
 
+
+
 const callbacks = {
 
-    showWebsite: function (url) {
-        win.loadURL(url)
+    showWebsite: function (outterUrl) {
+        win.loadURL(outterUrl)
     },
     showImage: function (filename) {
-        //TODO
+        win.webContents.executeJavaScript("hideContent();");
+        win.webContents.executeJavaScript("showContent(\"img\", \"../uploads/"+filename+"\")");//img1.mp4
+
     },
     showVideo: function (filename) {
-        //TODO
+        win.webContents.executeJavaScript("hideContent();");
+        win.webContents.executeJavaScript("showContent(\"video\", \"../uploads/"+filename+"\")");//video1.mp4
+
     },
     showYouTube: function (streamUrl) {
-        //TODO
+        win.webContents.executeJavaScript("hideContent();");
+        win.webContents.executeJavaScript("showContent(\"yt\", \""+filename+"\")");//x2y2V8LpbHk
+
     },
-    showMessageBar: function (message) {
-        //TODO
+    showMessageBar: function (message, color) {
+        win.webContents.executeJavaScript("showBar(\""+message+"\",\""+ color+"\")");// (String, "#242")
     },
     hideMessageBar: function () {
-        //TODO
+        win.webContents.executeJavaScript("document.getElementById(\"messageBar\").remove();");
     },
     showClock: function () {
-        //TODO
+        win.webContents.executeJavaScript("showTime()");
+
     },
-    hideClock: function (){
-        //TODO
+    hideClock: function () {
+        win.webContents.executeJavaScript("document.getElementById(\"time\").remove();");
     }
 
 }

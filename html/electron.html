@@ -3,15 +3,23 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>InfoBoard</title>
+    <script src="./electron.js">  
+        require("./electron.js")
+
+    </script>
 </head>
 
 <body>
-    <h1>Hello World!</h1>
-    We are using node
-    <script>document.write(process.versions.node)</script>, Chrome
-    <script>document.write(process.versions.chrome)</script>, and Electron
-    <script>document.write(process.versions.electron)</script>.
+    <div id="content">
+        <img src="" id="image" width="100%" style="visibility: hidden;" />
+        <iframe id="playerYT" type="text/html" src="" allowfullscreen frameborder="0" width="100%"style="visibility: hidden;"></iframe>
+        <video id="videoPlayer" autoplay src="" type="video/mp4"  width="100%"style="visibility: hidden;"/>
+    </div>
+    <div id="addons">
+    </div>
+
+    <h1 id="title">Hello!</h1>
 </body>
 
 </html>
