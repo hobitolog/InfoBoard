@@ -16,6 +16,7 @@
     <div class="container my-2 p-2 rounded border">
         <h3>Edit event:</h3>
         <form method="POST" action="/addSchedule" enctype="multipart/form-data">
+            <input type="text" name="previous" id="previous" hidden>
             <div class="form-group">
                 <label>Name</label>
                 <input type="text" name="name" id="name" class="form-control" placeholder="Name">
@@ -114,6 +115,16 @@
                     </div>
                     <div id="divMessage" hidden>
                         <input type="text" id="inputMessage" name="message" class="form-control" placeholder="Enter message">
+                        <div class="row">
+                            <div class="col">
+                                Background Color:
+                                <input type="color" name="bcolor" id="bcolor" class="form-control" style="height:38px">
+                            </div>
+                            <div class="col">
+                                Text Color:
+                                <input type="color" name="color" id="color" class="form-control" style="height:38px">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -124,8 +135,11 @@
             </div>
             <div id="errorAlert" class="alert alert-danger" role="alert" hidden>
             </div>
-            <a class="btn btn-secondary" role="button" href="/">Cancel</a>        
-            <input type="submit" class="btn btn-info" value="Save">
+            <div style="position: relative;">
+                <a class="btn btn-secondary" role="button" href="/">Cancel</a>
+                <input type="submit" class="btn btn-info" value="Save">
+                <a id="deleteEvent" class="btn btn-danger" role="button" href="/" style="position: absolute;right:0">Delete</a>
+            </div>
         </form>
 
     </div>

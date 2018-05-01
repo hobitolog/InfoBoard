@@ -15,15 +15,15 @@ function checkTime(i) {
 }
 
 function hideContent() {
-if(    document.getElementById('image')){
-    document.getElementById('image').remove();
-}
-if(    document.getElementById('playerYT')){
-    document.getElementById('playerYT').remove();
-}
-if(    document.getElementById('videoPlayer')){
-    document.getElementById('videoPlayer').remove();
-}
+    if (document.getElementById('image')) {
+        document.getElementById('image').remove();
+    }
+    if (document.getElementById('playerYT')) {
+        document.getElementById('playerYT').remove();
+    }
+    if (document.getElementById('videoPlayer')) {
+        document.getElementById('videoPlayer').remove();
+    }
 
 
 
@@ -68,11 +68,12 @@ function showContent(type, path) {
     }
 
 }
-function showBar(message, color) {
+function showBar(message, bcolor, color) {
     var bar = document.createElement("marquee")
-    bar.setAttribute("bgcolor", color)
     bar.setAttribute("id", "messageBar")
-    bar.setAttribute("width", "100%")
+    bar.style.width = "100%"
+    bar.style.backgroundColor = bcolor
+    bar.style.color = color
     bar.innerText = message
     document.getElementById("addons").appendChild(bar)
 }

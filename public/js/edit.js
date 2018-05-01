@@ -10,9 +10,10 @@ window.onload = function () {
     }
 
     var name = getQueryParameter("name")
-    send('POST', '/getEvent', { "name": name }, function (response) {
-        console.log(response)
+    document.getElementById("previous").value = name
+    document.getElementById("deleteEvent").href = '/deleteEvent?name=' + name
 
+    send('POST', '/getEvent', { "name": name }, function (response) {
         document.getElementById('name').value = name
         document.getElementById('priority').value = response.priority
 
@@ -36,14 +37,13 @@ window.onload = function () {
             case "bar":
                 document.getElementById('bar').click()
                 document.getElementById('inputMessage').value = response.message
+                document.getElementById('color').value = response.color
+                document.getElementById('bcolor').value = response.bcolor
                 break
             case "clock":
                 document.getElementById('clock').click()
                 break
         }
-
-
-
     })
 
     labels = document.getElementById('radios').getElementsByTagName('label')

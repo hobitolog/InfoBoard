@@ -14,10 +14,10 @@
 
         var base64Img = require('base64-img');
         const { desktopCapturer, screen } = require('electron');
-        function appScreenshot() {
+        function appScreenshot(resolve, reject) {
             handleStream = (stream) => {
                 var video = document.createElement('video');
-                video.style.cssText = 'position:absolute;top:-10000px;left:-10000px;';
+                //video.style.cssText = 'position:absolute;top:-10000px;left:-10000px;';
                 video.onloadedmetadata = function () {
                     video.style.height = this.videoHeight + 'px'; // videoHeight
                     video.style.width = this.videoWidth + 'px'; // videoWidth
@@ -26,7 +26,7 @@
                     canvas.height = this.videoHeight;
                     var ctx = canvas.getContext('2d');
                     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    base64Img.img(canvas.toDataURL('image/png'), './uploads', 'currentScreen', function (err, filepath) { });
+                    base64Img.img(canvas.toDataURL('image/png'), './uploads', 'currentScreen', function (err, filepath) { resolve(); });
                     video.remove();
                     try {
                         stream.getTracks()[0].stop();

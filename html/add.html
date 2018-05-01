@@ -112,8 +112,18 @@
                     <div id="inputFile" class="border rounded p-2">
                         <input type="file" name="file" placeholder="Choose file">
                     </div>
-                    <div id="inputMessage" hidden>
+                    <div id="inputMessage" class="container" hidden>
                         <input type="text" name="message" class="form-control" placeholder="Enter message">
+                        <div class="row">
+                            <div class="col">
+                                Background Color:
+                                <input type="color" name="bcolor" id="bcolor" value="#ff0000" class="form-control" style="height:38px">
+                            </div>
+                            <div class="col">
+                                Text Color:
+                                <input type="color" name="color" id="color" value="#ffffff" class="form-control" style="height:38px">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -124,7 +134,7 @@
             </div>
             <div id="errorAlert" class="alert alert-danger" role="alert" hidden>
             </div>
-            <a class="btn btn-secondary" role="button" href="/">Cancel</a>        
+            <a class="btn btn-secondary" role="button" href="/">Cancel</a>
             <input type="submit" class="btn btn-info" value="Add to Schedule">
         </form>
 

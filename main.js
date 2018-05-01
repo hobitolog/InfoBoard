@@ -8,15 +8,16 @@ function createWindow() {
     win = new BrowserWindow({
         show: false,
         autoHideMenuBar: true,
-        kiosk: true
+        //kiosk: true
     })
 
     win.once('ready-to-show', () => {
         win.show()
+        //TODO do wyjebania:
         callbacks.showImage("img1.jpg");
         callbacks.showYouTube("x2y2V8LpbHk")
         callbacks.showVideo("video1.mp4")
-        callbacks.showMessageBar("Czesc siemka", "#f35");
+        callbacks.showMessageBar("Czesc siemka", "#000", "#fff");
 
     })
 
@@ -46,8 +47,8 @@ const callbacks = {
         win.webContents.executeJavaScript("hideContent();");
         win.webContents.executeJavaScript("showContent(\"yt\", \"" + streamUrl + "\")");//x2y2V8LpbHk
     },
-    showMessageBar: function (message, color) {
-        win.webContents.executeJavaScript("showBar(\"" + message + "\",\"" + color + "\")");// (String, "#242")
+    showMessageBar: function (message, bcolor, color) {
+        win.webContents.executeJavaScript(`showBar("${message}", "${bcolor}", "${color}")`);// (String, "#242", "#fff")
     },
     hideMessageBar: function () {
         win.webContents.executeJavaScript("document.getElementById(\"messageBar\").remove();");
@@ -58,8 +59,10 @@ const callbacks = {
     hideClock: function () {
         win.webContents.executeJavaScript("document.getElementById(\"time\").remove();");
     },
-    generateScreenShot: function () {
-        win.webContents.executeJavaScript("appScreenshot();");
+    generateScreenShot: function (callback) {
+        win.webContents.executeJavaScript("new Promise(appScreenshot);").then(function () { 
+            callback()
+        })
     }
 }
 
