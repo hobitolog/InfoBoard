@@ -36,6 +36,9 @@ app.post('/getEvent', (req, res) => {
         return res.json(schedule.getEventByName(fields.name))
     })
 })
+app.get('/currentScreen', (req, res) => {
+    res.sendFile(path.join(__dirname, "/uploads", "currentScreen.png"))
+})
 
 app.post('/editSchedule', (req, res) => {
     res.send("TODO XD")

@@ -14,10 +14,6 @@ function checkTime(i) {
     return i;
 }
 
-function abc() {
-    alert("TEST")
-}
-
 function hideContent() {
     document.getElementById('image').style.visibility = "hidden";
     document.getElementById('playerYT').style.visibility = "hidden";

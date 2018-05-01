@@ -1,13 +1,24 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
+const fs = require("fs")
+
+app.disableHardwareAcceleration()
 function createWindow() {
-    win = new BrowserWindow({ show: false, autoHideMenuBar: true/*, kiosk: true*/ })
+    win = new BrowserWindow({
+        show: false,
+        autoHideMenuBar: true
+        /*, kiosk: true*/
+    })
+
 
     win.once('ready-to-show', () => {
         win.show()
-        //callbacks.showMessageBar("Czesc", "#f35");
+        callbacks.showMessageBar("Czesc siemka", "#f35");
+
     })
+
+
 
 
     win.loadURL(url.format({
@@ -15,6 +26,9 @@ function createWindow() {
         protocol: 'file:',
         slashes: true
     }))
+
+
+
 }
 
 app.on('ready', createWindow)
@@ -28,21 +42,21 @@ const callbacks = {
     },
     showImage: function (filename) {
         win.webContents.executeJavaScript("hideContent();");
-        win.webContents.executeJavaScript("showContent(\"img\", \"../uploads/"+filename+"\")");//img1.mp4
+        win.webContents.executeJavaScript("showContent(\"img\", \"../uploads/" + filename + "\")");//img1.mp4
 
     },
     showVideo: function (filename) {
         win.webContents.executeJavaScript("hideContent();");
-        win.webContents.executeJavaScript("showContent(\"video\", \"../uploads/"+filename+"\")");//video1.mp4
+        win.webContents.executeJavaScript("showContent(\"video\", \"../uploads/" + filename + "\")");//video1.mp4
 
     },
     showYouTube: function (streamUrl) {
         win.webContents.executeJavaScript("hideContent();");
-        win.webContents.executeJavaScript("showContent(\"yt\", \""+filename+"\")");//x2y2V8LpbHk
+        win.webContents.executeJavaScript("showContent(\"yt\", \"" + filename + "\")");//x2y2V8LpbHk
 
     },
     showMessageBar: function (message, color) {
-        win.webContents.executeJavaScript("showBar(\""+message+"\",\""+ color+"\")");// (String, "#242")
+        win.webContents.executeJavaScript("showBar(\"" + message + "\",\"" + color + "\")");// (String, "#242")
     },
     hideMessageBar: function () {
         win.webContents.executeJavaScript("document.getElementById(\"messageBar\").remove();");
@@ -53,6 +67,9 @@ const callbacks = {
     },
     hideClock: function () {
         win.webContents.executeJavaScript("document.getElementById(\"time\").remove();");
+    },
+    generateScreenShot: function () {
+        win.webContents.executeJavaScript("appScreenshot();");
     }
 
 }

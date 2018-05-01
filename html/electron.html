@@ -4,17 +4,70 @@
 <head>
     <meta charset="UTF-8">
     <title>InfoBoard</title>
-    <script src="./electron.js">  
-        require("./electron.js")
-
+    <script src="../public/js/electron.js">  
+        require("../public/js/electron.js")
     </script>
 </head>
 
 <body>
+    <script>
+
+        var base64Img = require('base64-img');
+        const { desktopCapturer, screen } = require('electron');
+        function appScreenshot() {
+            handleStream = (stream) => {
+                var video = document.createElement('video');
+                video.style.cssText = 'position:absolute;top:-10000px;left:-10000px;';
+                video.onloadedmetadata = function () {
+                    video.style.height = this.videoHeight + 'px'; // videoHeight
+                    video.style.width = this.videoWidth + 'px'; // videoWidth
+                    var canvas = document.createElement('canvas');
+                    canvas.width = this.videoWidth;
+                    canvas.height = this.videoHeight;
+                    var ctx = canvas.getContext('2d');
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    base64Img.img(canvas.toDataURL('image/png'), './uploads', 'currentScreen', function (err, filepath) { });
+                    video.remove();
+                    try {
+                        stream.getTracks()[0].stop();
+                    } catch (e) { }
+                }
+                video.src = URL.createObjectURL(stream);
+                document.body.appendChild(video);
+            };
+
+            handleError = function (e) {
+                console.log(e);
+            };
+
+            desktopCapturer.getSources({ types: ['window', 'screen'] }, (error, sources) => {
+                if (error) throw error;
+                for (let i = 0; i < sources.length; ++i) {
+                    console.log(sources);
+                    if (sources[i].name === document.title) {
+                        navigator.webkitGetUserMedia({
+                            audio: false,
+                            video: {
+                                mandatory: {
+                                    chromeMediaSource: 'desktop',
+                                    chromeMediaSourceId: sources[i].id,
+                                    minWidth: 1280,
+                                    maxWidth: 4000,
+                                    minHeight: 720,
+                                    maxHeight: 4000
+                                }
+                            }
+                        }, handleStream, handleError);
+                        return
+                    }
+                }
+            });
+        }
+    </script>
     <div id="content">
         <img src="" id="image" width="100%" style="visibility: hidden;" />
-        <iframe id="playerYT" type="text/html" src="" allowfullscreen frameborder="0" width="100%"style="visibility: hidden;"></iframe>
-        <video id="videoPlayer" autoplay src="" type="video/mp4"  width="100%"style="visibility: hidden;"/>
+        <iframe id="playerYT" type="text/html" src="" allowfullscreen frameborder="0" width="100%" style="visibility: hidden;"></iframe>
+        <video id="videoPlayer" autoplay src="" type="video/mp4" width="100%" style="visibility: hidden;" />
     </div>
     <div id="addons">
     </div>
