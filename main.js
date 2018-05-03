@@ -8,17 +8,17 @@ function createWindow() {
     win = new BrowserWindow({
         show: false,
         autoHideMenuBar: true,
-        //kiosk: true
+        kiosk: true
     })
 
     win.once('ready-to-show', () => {
         win.show()
-        //TODO do wyjebania:
+        //TODO to delete:
         callbacks.showImage("img1.jpg");
         callbacks.showYouTube("x2y2V8LpbHk")
         callbacks.showVideo("video1.mp4")
-        callbacks.showMessageBar("Czesc siemka", "#000", "#fff");
-
+        callbacks.showMessageBar("Czesc siemka", "#030", "#fff");
+        callbacks.showClock()
     })
 
     win.loadURL(url.format({
