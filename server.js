@@ -247,4 +247,5 @@ let electronCallbacks
 
 module.exports = function (callbacks) {
     electronCallbacks = callbacks
+    schedule.setElectronCallbacks(callbacks)
 }
