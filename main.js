@@ -13,12 +13,6 @@ function createWindow() {
 
     win.once('ready-to-show', () => {
         win.show()
-        //TODO to delete:
-        callbacks.showImage("img1.jpg");
-        callbacks.showYouTube("x2y2V8LpbHk")
-        callbacks.showVideo("video1.mp4")
-        callbacks.showMessageBar("Czesc siemka", "#030", "#fff");
-        callbacks.showClock()
     })
 
     win.loadURL(url.format({
@@ -35,13 +29,13 @@ const callbacks = {
     showWebsite: function (outterUrl) {
         win.loadURL(outterUrl)
     },
-    showImage: function (filename) {
+    showImage: function (filepath) {
         win.webContents.executeJavaScript("hideContent();");
-        win.webContents.executeJavaScript("showContent(\"img\", \"../uploads/" + filename + "\")");//img1.mp4
+        win.webContents.executeJavaScript("showContent(\"img\", \"" + filepath + "\")");
     },
-    showVideo: function (filename) {
+    showVideo: function (filepath) {
         win.webContents.executeJavaScript("hideContent();");
-        win.webContents.executeJavaScript("showContent(\"video\", \"../uploads/" + filename + "\")");//video1.mp4
+        win.webContents.executeJavaScript("showContent(\"video\", \"" + filepath + "\")");
     },
     showYouTube: function (streamUrl) {
         win.webContents.executeJavaScript("hideContent();");
