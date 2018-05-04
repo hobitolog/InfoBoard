@@ -219,14 +219,18 @@ function stopCronJob(name) {
         return element.name == name
     })
 
-    startCronJobs.job[startIndex].stop()
-    stopCronJobs.job[stopIndex].stop()
-
-    startCronJobs.job.splice(startIndex, 1)
-    stopCronJobs.job.splice(stopIndex, 1)
+    if(startIndex != -1) {
+        startCronJobs.job[startIndex].stop()
+        startCronJobs.job.splice(startIndex, 1)
+    }
+    if(stopIndex != -1) {
+        stopCronJobs.job[stopIndex].stop()
+        stopCronJobs.job.splice(stopIndex, 1)
+    }
 }
 
 function editCronJob(name, event) {
+    //TODO fix edit
     startIndex = startCronJobs.job.indexOf(name)
     stopIndex = stopCronJobs.job.indexOf(name)
     if(startIndex == -1 || stopIndex == -1)
