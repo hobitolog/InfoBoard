@@ -28,9 +28,9 @@ var actualJob = {
 }
 
 function update(name, event) {
-    //TODO update cronJob
     removeWithoutFile(name)
     add(event)
+    editCronJob(name, event)
 }
 
 function removeWithoutFile(name) {
@@ -76,8 +76,8 @@ function getNameList() {
 
 function add(event) {
     schedule.elements.push(event)
-    createCronJob(event)
     save()
+    createCronJob(event)
 }
 
 function save() {
@@ -109,66 +109,111 @@ function createCronJob(element) {
     switch(element.type) {
         case "remote":
             tempStart = function () {
-                if(actualJob.main.priority < element.priority)
+                if(actualJob.main.priority < element.priority) {
                     el.showWebsite(element.uri)
+                    actualJob.main.priority = element.priority
+                    actualJob.main.name = element.name
+                }
             }
             break
         case "youtube":
             tempStart = function () {
-                if(actualJob.main.priority < element.priority)
+                if(actualJob.main.priority < element.priority) {
                     el.showYoutube(element.uri)
+                    actualJob.main.priority = element.priority
+                    actualJob.main.name = element.name
+                }
             }
             break
         case "video":
             tempStart = function () {
-                if(actualJob.main.priority < element.priority)
+                if(actualJob.main.priority < element.priority) {
                     el.showVideo(element.uri)
+                    actualJob.main.priority = element.priority
+                    actualJob.main.name = element.name
+                }
             }
             break
         case "image":
             tempStart = function () {
-                if(actualJob.main.priority < element.priority)
+                if(actualJob.main.priority < element.priority) {
                     el.showImage(element.uri)
+                    actualJob.main.priority = element.priority
+                    actualJob.main.name = element.name
+                }
             }
             break
         case "bar":
             tempStart = function () {
-                if(actualJob.bar.priority < element.priority)
+                if(actualJob.bar.priority < element.priority) {
                     el.showMessageBar(element.message, element.bcolor, element.color)
+                    actualJob.bar.priority = element.priority
+                    actualJob.bar.name = element.name
+                }
             }
             break
     }
 
     if(element.type == 'bar') {
         tempStop = function () {
-            if(actualJob.bar.name == element.name)
+            if(actualJob.bar.name == element.name) {
                 el.hideMessageBar()
+                actualJob.bar.priority = 0
+                actualJob.bar.name = ""
+            }
         }
     } else {
         tempStop = function() {
-            if(actualJob.main.name == element.name)
+            if(actualJob.main.name == element.name) 
                 showBasicImage()
         }
     }
 
-    var startJob = new CronJob(element.start, tempStart, undefined, true, 'Europe/Warsaw')
+    var startJob = new CronJob(element.start, tempStart, tempStop, true, 'Europe/Warsaw')
     startJob.name = element.name
+    startJob.time = element.start
+    startJob.uri = element.uri
     startCronJobs.job.push(startJob)
     
-    var stopJob = new CronJob(element.stop, tempStop, undefined, true, 'Europe/Warsaw')
+    var stopJob = new CronJob(element.stop, tempStop, tempStop, true, 'Europe/Warsaw')
     stopJob.name = element.name
+    stopJob.time = element.stop
+    stopJob.uri = element.uri
     stopCronJobs.job.push(stopJob)
 }
 
 function stopCronJob(name) {
-    startCronJobs.forEach((element, index) => {
-        if(element.name == name)
-            element.stop()
+    var startIndex = startCronJobs.job.findIndex(element => {
+        return element.name == name
     })
-    stopCronJobs.forEach((element, index) => {
-        if(element.name == name)
-            element.stop()
+    var stopIndex = stopCronJobs.job.findIndex(element => {
+        return element.name == name
     })
+
+    startCronJobs.job[startIndex].stop()
+    stopCronJobs.job[stopIndex].stop()
+
+    startCronJobs.job.splice(startIndex, 1)
+    stopCronJobs.job.splice(stopIndex, 1)
+}
+
+function editCronJob(name, event) {
+    startIndex = startCronJobs.job.indexOf(name)
+    stopIndex = stopCronJobs.job.indexOf(name)
+    if(startIndex == -1 || stopIndex == -1)
+        return
+
+    if(startCronJobs.job[startIndex].time != event.start 
+        || stopCronJobs.job[stopIndex].time != event.stop
+        || startCronJobs.job[startIndex].uri != event.uri) {
+            startCronJobs.job[startIndex].stop()
+            startCronJobs.job.splice(startIndex, 1)
+            stopCronJobs.job[startIndex].stop()
+            stopCronJobs.job[stopIndex].splice(stopIndex, 1)
+    } else if(name != event.name) {
+        startCronJobs.job[startIndex].name = event.name
+        stopCronJobs.job[stopIndex].name = event.name
+    }
 }
 
 setTimeout(function () {
