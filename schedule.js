@@ -230,12 +230,12 @@ function editCronJob(name, event) {
     var stopIndex = stopCronJobs.job.indexOf(name)
     var modified = false
     if (startIndex != -1) {
-        if (startCronJobs.job[startIndex].event != event)
+        if (!areEventsEqual(startCronJobs.job[startIndex].event, event))
             modified = true
     }
 
     if (stopIndex != -1) {
-        if (stopCronJobs.job[stopIndex].event != event)
+        if (!areEventsEqual(stopCronJobs.job[stopIndex].event, event))
             modified = true
     }
 
@@ -243,6 +243,21 @@ function editCronJob(name, event) {
         stopCronJob(name)
         createCronJob(event)
     }
+}
+
+function areEventsEqual(event1, event2) {
+    if(event1.name != event2.name
+    || event1.start != event2.start
+    || event1.stop != event2.stop
+    || event1.type != event2.type
+    || event1.uri != event2.uri
+    || event1.message != event2.message
+    || event1.priority != event2.priority
+    || event1.bcolor != event2.bcolor
+    || event1.color != event2.color)
+        return false
+
+    return true
 }
 
 setTimeout(function () {
