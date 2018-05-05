@@ -24,6 +24,9 @@ function hideContent() {
     if (document.getElementById('videoPlayer')) {
         document.getElementById('videoPlayer').remove();
     }
+    if (document.getElementById('page')) {
+        document.getElementById('page').remove();
+    }
 
 
 
@@ -33,6 +36,20 @@ function hideContent() {
 function showContent(type, path) {
 
     switch (type) {
+        case "page":
+            var page = document.createElement('iframe');
+            page.setAttribute("id", "page");
+            page.style.width = "100%"
+            page.style.overflow = "hidden"
+            page.setAttribute("type", "text/html")
+            page.style.visibility = "visible";
+            page.style.paddingTop = "50px"
+            page.style.top = "0px"
+            page.style.left = "0px"
+            page.style.position = "absolute";
+            page.setAttribute("src", path);
+            document.getElementById("content").appendChild(page);
+            break;
         case "img":
             var img = document.createElement('img');
             img.setAttribute("id", "image");

@@ -8,7 +8,7 @@ function createWindow() {
     win = new BrowserWindow({
         show: false,
         autoHideMenuBar: true,
-        kiosk: true
+        //kiosk: true
     })
 
     win.once('ready-to-show', () => {
@@ -26,8 +26,9 @@ app.on('ready', createWindow)
 
 const callbacks = {
 
-    showWebsite: function (outterUrl) {
-        win.loadURL(outterUrl)
+    showWebsite: function (filepath) {
+        win.webContents.executeJavaScript("hideContent();");
+        win.webContents.executeJavaScript("showContent(\"page\", \"" + filepath + "\")");
     },
     showImage: function (filepath) {
         win.webContents.executeJavaScript("hideContent();");
