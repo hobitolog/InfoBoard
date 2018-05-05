@@ -5,7 +5,7 @@ window.onload = function () {
     var err = getQueryParameter("err")
     if (err) {
         var errorAlert = document.getElementById('errorAlert')
-        errorAlert.innerText = response.error
+        errorAlert.innerText = decodeURIComponent(err)
         errorAlert.hidden = false
     }
 
