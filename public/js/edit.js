@@ -17,6 +17,22 @@ window.onload = function () {
         document.getElementById('name').value = name
         document.getElementById('priority').value = response.priority
 
+        var startTimes = response.start.split(" ")
+        document.getElementById('startHours').value = startTimes[0] == '*' ? "" : startTimes[0]
+        document.getElementById('startMinutes').value = startTimes[1] == '*' ? "" : startTimes[1]
+        document.getElementById('startSeconds').value = startTimes[2] == '*' ? "" : startTimes[2]
+        document.getElementById('startDoM').value = startTimes[3] == '*' ? "" : startTimes[3]
+        document.getElementById('startMonths').value = startTimes[4] == '*' ? "" : startTimes[4]
+        document.getElementById('startDoW').value = startTimes[5] == '*' ? "" : startTimes[5]
+
+        var stopTimes = response.stop.split(" ")
+        document.getElementById('stopHours').value = stopTimes[0] == '*' ? "" : stopTimes[0]
+        document.getElementById('stopMinutes').value = stopTimes[1] == '*' ? "" : stopTimes[1]
+        document.getElementById('stopSeconds').value = stopTimes[2] == '*' ? "" : stopTimes[2]
+        document.getElementById('stopDoM').value = stopTimes[3] == '*' ? "" : stopTimes[3]
+        document.getElementById('stopMonths').value = stopTimes[4] == '*' ? "" : stopTimes[4]
+        document.getElementById('stopDoW').value = stopTimes[5] == '*' ? "" : stopTimes[5]
+
         switch (response.type) {
             case "remote":
                 document.getElementById('remote').click()
