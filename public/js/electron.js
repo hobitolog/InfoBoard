@@ -40,7 +40,9 @@ function showContent(type, path) {
             var page = document.createElement('iframe');
             page.setAttribute("id", "page");
             page.style.width = "100%"
+            page.style.height ="100%"
             page.style.overflow = "hidden"
+            page.setAttribute("scrolling","no")
             page.setAttribute("type", "text/html")
             page.style.visibility = "visible";
             page.style.paddingTop = "50px"
