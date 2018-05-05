@@ -1,6 +1,7 @@
 window.onload = function () {
 
     updateList()
+    document.getElementById('CurrentScreen').src = "/currentScreen"
     console.log("Init completed")
 }
 
@@ -34,6 +35,7 @@ function createListElement(element) {
     li.innerText = element.name
     var time = document.createElement('span')
     time.innerText = element.time
+    time.classList.add('d-none', 'd-lg-block', 'd-xl-block')
     li.appendChild(time)
     li.appendChild(createBadge(element.type))
     li.addEventListener('click', function () {
