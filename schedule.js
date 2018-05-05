@@ -1,5 +1,7 @@
-var fs = require('fs')
-var CronJob = require('cron').CronJob;
+const fs = require('fs')
+const CronJob = require('cron').CronJob;
+const webpageUtil = require('./webpage.util')
+const path = require('path')
 
 let el
 
@@ -76,6 +78,10 @@ function getNameList() {
 }
 
 function add(event) {
+
+    if(event.type == "remote")
+        webpageUtil.backupWebsite(event)
+
     schedule.elements.push(event)
     save()
     createCronJob(event)
@@ -119,7 +125,7 @@ function setBasicView() {
 function setView(event) {
     switch (event.type) {
         case "remote":
-            el.showWebsite(event.uri)
+            showRemote(event)
             break
         case "youtube":
             el.showYoutube(event.uri)
@@ -133,6 +139,13 @@ function setView(event) {
     }
     mainView.name = event.name
     mainView.priority = event.priority
+}
+
+function showRemote(event) {
+    webpageUtil.getWebsitePath(event, function(fpath) {
+        const filepath = path.join('../', fpath)
+        el.showWebsite(filepath)
+    })
 }
 
 function setBar(event) {
@@ -245,6 +258,7 @@ function editCronJob(name, event) {
     }
 }
 
+<<<<<<< HEAD
 function areEventsEqual(event1, event2) {
     if(event1.name != event2.name
     || event1.start != event2.start
@@ -260,6 +274,9 @@ function areEventsEqual(event1, event2) {
     return true
 }
 
+=======
+//TODO przerobić to ready-to-show
+>>>>>>> 90d04b4448f354b7818473cc34cf99a68f805728
 setTimeout(function () {
     el.showClock()
     setBasicView()

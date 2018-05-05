@@ -1,6 +1,9 @@
 .vscode/
 node_modules/
 uploads/
+site_backups/
+site_temp/
+
 
 schedule.json
 *.exe
