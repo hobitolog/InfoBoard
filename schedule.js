@@ -197,26 +197,22 @@ function createCronJob(event) {
     }
     
     var startJob = new CronJob(event.start == '* * * * * *' ? '0 * * * * *' : event.start, tempStart, tempStop, true, 'Europe/Warsaw')
-    startJob.name = event.name
-    startJob.time = event.start
-    startJob.uri = event.uri
+    startJob.event = event
     startCronJobs.job.push(startJob)
     
     if(event.start != '* * * * * *' && event.stop != '* * * * * *') {
         var stopJob = new CronJob(event.stop, tempStop, undefined, true, 'Europe/Warsaw')
-        stopJob.name = event.name
-        stopJob.time = event.stop
-        stopJob.uri = event.uri
+        stopJob.event = event
         stopCronJobs.job.push(stopJob)
     }
 }
 
 function stopCronJob(name) {
     var startIndex = startCronJobs.job.findIndex(element => {
-        return element.name == name
+        return element.event.name == name
     })
     var stopIndex = stopCronJobs.job.findIndex(element => {
-        return element.name == name
+        return element.event.name == name
     })
 
     if(startIndex != -1) {
@@ -230,22 +226,22 @@ function stopCronJob(name) {
 }
 
 function editCronJob(name, event) {
-    //TODO fix edit
-    startIndex = startCronJobs.job.indexOf(name)
-    stopIndex = stopCronJobs.job.indexOf(name)
-    if(startIndex == -1 || stopIndex == -1)
-        return
+    var startIndex = startCronJobs.job.indexOf(name)
+    var stopIndex = stopCronJobs.job.indexOf(name)
+    var modified = false
+    if(startIndex != -1) {
+        if(startCronJobs.job[startIndex].event != event)
+            modified = true
+    }
+    
+    if(stopIndex != -1) {
+        if(stopCronJobs.job[stopIndex].event != event)
+            modified = true
+    }
 
-    if(startCronJobs.job[startIndex].time != event.start 
-        || stopCronJobs.job[stopIndex].time != event.stop
-        || startCronJobs.job[startIndex].uri != event.uri) {
-            startCronJobs.job[startIndex].stop()
-            startCronJobs.job.splice(startIndex, 1)
-            stopCronJobs.job[startIndex].stop()
-            stopCronJobs.job[stopIndex].splice(stopIndex, 1)
-    } else if(name != event.name) {
-        startCronJobs.job[startIndex].name = event.name
-        stopCronJobs.job[stopIndex].name = event.name
+    if(modified) {
+        stopCronJob(name)
+        createCronJob(event)
     }
 }
 
