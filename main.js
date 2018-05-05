@@ -28,7 +28,7 @@ const callbacks = {
 
     showWebsite: function (filepath) {
         win.webContents.executeJavaScript("hideContent();");
-        win.webContents.executeJavaScript("showContent(\"page\", \"" + filepath + "\")");
+        win.webContents.executeJavaScript("showContent('page', '" + filepath.replace(/\\/g, '\\/') + "')");
     },
     showImage: function (filepath) {
         win.webContents.executeJavaScript("hideContent();");
@@ -55,7 +55,7 @@ const callbacks = {
         win.webContents.executeJavaScript("document.getElementById(\"time\").remove();");
     },
     generateScreenShot: function (callback) {
-        win.webContents.executeJavaScript("new Promise(appScreenshot);").then(function () { 
+        win.webContents.executeJavaScript("new Promise(appScreenshot);").then(function () {
             callback()
         })
     }
