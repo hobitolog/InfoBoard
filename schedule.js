@@ -30,6 +30,10 @@ var messageBar = {
     bar: []
 }
 
+var clock = {
+    clocks: []
+}
+
 function update(name, event) {
     removeWithoutFile(name)
     add(event)
@@ -184,6 +188,21 @@ function createCronJob(event) {
                 setBar(messageBar.bar[index])
             }
         }
+    } else if (event.type == 'clock') {
+        tempStart = function () {
+            if (!clock.clocks.includes(event))
+                clock.clocks.push(event)
+            el.showClock()
+        }
+        tempStop = function () {
+            var index = clock.clocks.findIndex(cl => {
+                return cl.name == event.name
+            })
+            if (index != -1)
+                clock.clocks.splice(index, 1)
+            if(clock.clocks.length < 1)
+                el.hideClock()
+        }
     } else {
         tempStart = function () {
             if (parseInt(mainView.priority) < parseInt(event.priority)) {
@@ -275,7 +294,6 @@ function areEventsEqual(event1, event2) {
 
 //TODO przerobić to ready-to-show
 setTimeout(function () {
-    el.showClock()
     setBasicView()
 
     for (let i = 0; i < schedule.elements.length; i++) {
