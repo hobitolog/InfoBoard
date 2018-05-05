@@ -47,7 +47,7 @@ function removeWithFile(name) {
     })
     const event = schedule.elements[index]
     if (event.type == "video" || event.type == "image") {
-        fs.unlink(event.uri)
+        fs.unlink(event.uri, (err) => { })
     }
     schedule.elements.splice(index, 1)
 }

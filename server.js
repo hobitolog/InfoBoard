@@ -38,7 +38,7 @@ app.post('/getEvent', (req, res) => {
 })
 app.get('/currentScreen', (req, res) => {
 
-    electronCallbacks.generateScreenShot(function() {
+    electronCallbacks.generateScreenShot(function () {
         res.sendFile(path.join(__dirname, "/uploads", "currentScreen.png"))
     })
 })
@@ -104,7 +104,7 @@ app.post('/editSchedule', (req, res) => {
         }
 
         if (files.file.size == 0) {
-            fs.unlink(files.file.path)
+            fs.unlink(files.file.path, (err) => { })
         }
 
         const startTime = valueOrAsterisk(fields.startSeconds) + " " +
@@ -129,7 +129,7 @@ app.post('/editSchedule', (req, res) => {
             "uri": uri,
             "message": message,
             "priority": fields.priority,
-            "bcolor": fields.bcolor,            
+            "bcolor": fields.bcolor,
             "color": fields.color
         })
 
@@ -191,7 +191,7 @@ app.post('/addSchedule', (req, res) => {
         }
 
         if (files.file.size == 0) {
-            fs.unlink(files.file.path)
+            fs.unlink(files.file.path, (err) => { })
         }
 
         const startTime = valueOrAsterisk(fields.startSeconds) + " " +
@@ -216,7 +216,7 @@ app.post('/addSchedule', (req, res) => {
             "uri": uri,
             "message": message,
             "priority": fields.priority,
-            "bcolor": fields.bcolor,            
+            "bcolor": fields.bcolor,
             "color": fields.color
         })
 
@@ -231,8 +231,9 @@ app.listen(80, function () {
 function handleFileUpload(file, name) {
     const filename = name + "." + file.name.split('.').slice(-1)[0]
     const filepath = path.join(__dirname, '/uploads', filename)
-    fs.rename(file.path, filepath)
-    return filepath
+    fs.rename(file.path, filepath, (err) => {
+        return filepath
+    })
 }
 
 function valueOrAsterisk(value) {
