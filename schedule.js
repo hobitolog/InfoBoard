@@ -258,7 +258,6 @@ function editCronJob(name, event) {
     }
 }
 
-<<<<<<< HEAD
 function areEventsEqual(event1, event2) {
     if(event1.name != event2.name
     || event1.start != event2.start
@@ -274,9 +273,7 @@ function areEventsEqual(event1, event2) {
     return true
 }
 
-=======
 //TODO przerobić to ready-to-show
->>>>>>> 90d04b4448f354b7818473cc34cf99a68f805728
 setTimeout(function () {
     el.showClock()
     setBasicView()
