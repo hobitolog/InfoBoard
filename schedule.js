@@ -102,7 +102,7 @@ function getHighestPriorityIndex(eventsTable) {
     var highestPriorityIndex = -1
     var highestPriority = -1
     eventsTable.forEach((element, index) => {
-        if(element.priority > highestPriority) {
+        if (element.priority > highestPriority) {
             highestPriority = element.priority
             highestPriorityIndex = index
         }
@@ -117,7 +117,7 @@ function setBasicView() {
 }
 
 function setView(event) {
-    switch(event.type) {
+    switch (event.type) {
         case "remote":
             el.showWebsite(event.uri)
             break
@@ -146,61 +146,61 @@ function createCronJob(event) {
     var tempStart
     var tempStop
 
-    if(event.type == 'bar') {
+    if (event.type == 'bar') {
         tempStart = function () {
-            if(parseInt(messageBar.priority) < parseInt(event.priority)) {
+            if (parseInt(messageBar.priority) < parseInt(event.priority)) {
                 setBar(event)
                 messageBar.priority = event.priority
                 messageBar.name = event.name
             }
-            if(!messageBar.bar.includes(event)) 
+            if (!messageBar.bar.includes(event))
                 messageBar.bar.push(event)
         }
-        tempStop = function() {
+        tempStop = function () {
             var index = messageBar.bar.findIndex(bar => {
                 return bar.name == event.name
             })
-            if(index != -1)
+            if (index != -1)
                 messageBar.bar.splice(index, 1)
             index = getHighestPriorityIndex(messageBar.bar)
-            if(index < 0) {
+            if (index < 0) {
                 el.hideMessageBar()
                 messageBar.priority = 0
                 messageBar.name = ''
-            } else if(messageBar.bar[index].name != messageBar.name) {
+            } else if (messageBar.bar[index].name != messageBar.name) {
                 setBar(messageBar.bar[index])
             }
         }
     } else {
         tempStart = function () {
-            if(parseInt(mainView.priority) < parseInt(event.priority)) {
+            if (parseInt(mainView.priority) < parseInt(event.priority)) {
                 setView(event)
                 mainView.priority = event.priority
                 mainView.name = event.name
             }
-            if(!mainView.view.includes(event)) 
+            if (!mainView.view.includes(event))
                 mainView.view.push(event)
         }
-        tempStop = function() {
+        tempStop = function () {
             var index = mainView.view.findIndex(view => {
                 return view.name == event.name
             })
-            if(index != -1)
+            if (index != -1)
                 mainView.view.splice(index, 1)
             index = getHighestPriorityIndex(mainView.view)
-            if(index < 0) {
+            if (index < 0) {
                 setBasicView()
-            } else if(mainView.view[index].name != event.name) {
+            } else if (mainView.view[index].name != event.name) {
                 setView(mainView.view[index])
             }
         }
     }
-    
+
     var startJob = new CronJob(event.start == '* * * * * *' ? '0 * * * * *' : event.start, tempStart, tempStop, true, 'Europe/Warsaw')
     startJob.event = event
     startCronJobs.job.push(startJob)
-    
-    if(event.start != '* * * * * *' && event.stop != '* * * * * *') {
+
+    if (event.start != '* * * * * *' && event.stop != '* * * * * *') {
         var stopJob = new CronJob(event.stop, tempStop, undefined, true, 'Europe/Warsaw')
         stopJob.event = event
         stopCronJobs.job.push(stopJob)
@@ -215,11 +215,11 @@ function stopCronJob(name) {
         return element.event.name == name
     })
 
-    if(startIndex != -1) {
+    if (startIndex != -1) {
         startCronJobs.job[startIndex].stop()
         startCronJobs.job.splice(startIndex, 1)
     }
-    if(stopIndex != -1) {
+    if (stopIndex != -1) {
         stopCronJobs.job[stopIndex].stop()
         stopCronJobs.job.splice(stopIndex, 1)
     }
@@ -229,17 +229,17 @@ function editCronJob(name, event) {
     var startIndex = startCronJobs.job.indexOf(name)
     var stopIndex = stopCronJobs.job.indexOf(name)
     var modified = false
-    if(startIndex != -1) {
-        if(startCronJobs.job[startIndex].event != event)
-            modified = true
-    }
-    
-    if(stopIndex != -1) {
-        if(stopCronJobs.job[stopIndex].event != event)
+    if (startIndex != -1) {
+        if (startCronJobs.job[startIndex].event != event)
             modified = true
     }
 
-    if(modified) {
+    if (stopIndex != -1) {
+        if (stopCronJobs.job[stopIndex].event != event)
+            modified = true
+    }
+
+    if (modified) {
         stopCronJob(name)
         createCronJob(event)
     }
@@ -262,5 +262,5 @@ module.exports = {
     removeEvent: remove,
     load: load,
     save: save,
-    setElectronCallbacks : setElectronCallbacks
+    setElectronCallbacks: setElectronCallbacks
 }
