@@ -30,6 +30,10 @@ var messageBar = {
     bar: []
 }
 
+var clock = {
+    clocks: []
+}
+
 function update(name, event) {
     removeWithoutFile(name)
     add(event)
@@ -187,6 +191,21 @@ function createCronJob(event) {
                 setBar(messageBar.bar[index])
             }
         }
+    } else if (event.type == 'clock') {
+        tempStart = function () {
+            if (!clock.clocks.includes(event))
+                clock.clocks.push(event)
+            el.showClock()
+        }
+        tempStop = function () {
+            var index = clock.clocks.findIndex(cl => {
+                return cl.name == event.name
+            })
+            if (index != -1)
+                clock.clocks.splice(index, 1)
+            if(clock.clocks.length < 1)
+                el.hideClock()
+        }
     } else {
         tempStart = function () {
             if (parseInt(mainView.priority) < parseInt(event.priority)) {
@@ -246,12 +265,12 @@ function editCronJob(name, event) {
     var stopIndex = stopCronJobs.job.indexOf(name)
     var modified = false
     if (startIndex != -1) {
-        if (startCronJobs.job[startIndex].event != event)
+        if (!areEventsEqual(startCronJobs.job[startIndex].event, event))
             modified = true
     }
 
     if (stopIndex != -1) {
-        if (stopCronJobs.job[stopIndex].event != event)
+        if (!areEventsEqual(stopCronJobs.job[stopIndex].event, event))
             modified = true
     }
 
@@ -261,9 +280,23 @@ function editCronJob(name, event) {
     }
 }
 
+function areEventsEqual(event1, event2) {
+    if(event1.name != event2.name
+    || event1.start != event2.start
+    || event1.stop != event2.stop
+    || event1.type != event2.type
+    || event1.uri != event2.uri
+    || event1.message != event2.message
+    || event1.priority != event2.priority
+    || event1.bcolor != event2.bcolor
+    || event1.color != event2.color)
+        return false
+
+    return true
+}
+
 //TODO przerobić to ready-to-show
 setTimeout(function () {
-    el.showClock()
     setBasicView()
 
     for (let i = 0; i < schedule.elements.length; i++) {
