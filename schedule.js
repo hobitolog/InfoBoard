@@ -51,6 +51,9 @@ function removeWithFile(name) {
     if (event.type == "video" || event.type == "image") {
         fs.unlink(event.uri, (err) => { })
     }
+    else if (event.type == "remote") {
+        webpageUtil.removeEventData(event)
+    }
     schedule.elements.splice(index, 1)
 }
 

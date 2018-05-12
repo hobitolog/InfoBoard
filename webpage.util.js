@@ -34,6 +34,11 @@ module.exports = {
             else
                 callback(path.join(TEMP_DIR, event.name, '/index.html'))
         }, false)
+    },
+
+    removeEventData: function (event) {
+        deleteFolderRecursive(path.join(BACKUPS_DIR, event.name))
+        deleteFolderRecursive(path.join(TEMP_DIR, event.name))        
     }
 }
 
