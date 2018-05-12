@@ -64,6 +64,7 @@ function removeWithFile(name) {
 function remove(name) {
     removeWithFile(name)
     stopCronJob(name)
+    save()
 }
 
 function get(name) {
