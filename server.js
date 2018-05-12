@@ -5,6 +5,7 @@ const fs = require('fs')
 const schedule = require('./schedule')
 schedule.load()
 
+const formidableFix = require('./formidableFix')
 const formidable = require('formidable')
 const express = require('express')
 const morgan = require('morgan')
@@ -55,6 +56,7 @@ app.post('/editSchedule', (req, res) => {
 
     const form = new formidable.IncomingForm()
     form.uploadDir = path.join(__dirname, '/uploads')
+    form.multiples = true
 
     form.parse(req, function (err, fields, files) {
 
@@ -107,19 +109,32 @@ app.post('/editSchedule', (req, res) => {
             fs.unlink(files.file.path, (err) => { })
         }
 
-        const startTime = valueOrAsterisk(fields.startSeconds) + " " +
+        let startTime = valueOrAsterisk(fields.startSeconds) + " " +
             valueOrAsterisk(fields.startMinutes) + " " +
             valueOrAsterisk(fields.startHours) + " " +
-            valueOrAsterisk(fields.startDoM) + " " +
-            valueOrAsterisk(fields.startMonths) + " " +
-            valueOrAsterisk(fields.startDoW)
+            valueOrAsterisk(fields.startDoM) + " "
+        if (fields.startMonths)
+            startTime += fields.startMonths.join() + " "
+        else
+            startTime += "* "
+        if (fields.startDoW)
+            startTime += fields.startDoW.join()
+        else
+            startTime += "*"
 
-        const stopTime = valueOrAsterisk(fields.stopSeconds) + " " +
+        let stopTime = valueOrAsterisk(fields.stopSeconds) + " " +
             valueOrAsterisk(fields.stopMinutes) + " " +
             valueOrAsterisk(fields.stopHours) + " " +
-            valueOrAsterisk(fields.stopDoM) + " " +
-            valueOrAsterisk(fields.stopMonths) + " " +
-            valueOrAsterisk(fields.stopDoW)
+            valueOrAsterisk(fields.stopDoM) + " "
+        if (fields.stopMonths)
+            stopTime += fields.stopMonths.join() + " "
+        else
+            stopTime += "* "
+        if (fields.stopDoW)
+            stopTime += fields.stopDoW.join()
+        else
+            stopTime += "*"
+
 
         schedule.updateEvent(fields.previous, {
             "name": name,
@@ -144,6 +159,7 @@ app.post('/addSchedule', (req, res) => {
 
     const form = new formidable.IncomingForm()
     form.uploadDir = path.join(__dirname, '/uploads')
+    form.multiples = true
 
     form.parse(req, function (err, fields, files) {
 
@@ -194,19 +210,31 @@ app.post('/addSchedule', (req, res) => {
             fs.unlink(files.file.path, (err) => { })
         }
 
-        const startTime = valueOrAsterisk(fields.startSeconds) + " " +
+        let startTime = valueOrAsterisk(fields.startSeconds) + " " +
             valueOrAsterisk(fields.startMinutes) + " " +
             valueOrAsterisk(fields.startHours) + " " +
-            valueOrAsterisk(fields.startDoM) + " " +
-            valueOrAsterisk(fields.startMonths) + " " +
-            valueOrAsterisk(fields.startDoW)
+            valueOrAsterisk(fields.startDoM) + " "
+        if (fields.startMonths)
+            startTime += fields.startMonths.join() + " "
+        else
+            startTime += "* "
+        if (fields.startDoW)
+            startTime += fields.startDoW.join()
+        else
+            startTime += "*"
 
-        const stopTime = valueOrAsterisk(fields.stopSeconds) + " " +
+        let stopTime = valueOrAsterisk(fields.stopSeconds) + " " +
             valueOrAsterisk(fields.stopMinutes) + " " +
             valueOrAsterisk(fields.stopHours) + " " +
-            valueOrAsterisk(fields.stopDoM) + " " +
-            valueOrAsterisk(fields.stopMonths) + " " +
-            valueOrAsterisk(fields.stopDoW)
+            valueOrAsterisk(fields.stopDoM) + " "
+        if (fields.stopMonths)
+            stopTime += fields.stopMonths.join() + " "
+        else
+            stopTime += "* "
+        if (fields.stopDoW)
+            stopTime += fields.stopDoW.join()
+        else
+            stopTime += "*"
 
         schedule.addToSchedule({
             "name": name,

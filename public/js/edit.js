@@ -22,16 +22,46 @@ window.onload = function () {
         document.getElementById('startMinutes').value = startTimes[1] == '*' ? "" : startTimes[1]
         document.getElementById('startSeconds').value = startTimes[0] == '*' ? "" : startTimes[0]
         document.getElementById('startDoM').value = startTimes[3] == '*' ? "" : startTimes[3]
-        document.getElementById('startMonths').value = startTimes[4] == '*' ? "" : startTimes[4]
-        document.getElementById('startDoW').value = startTimes[5] == '*' ? "" : startTimes[5]
+
+        var startMs = startTimes[4].split(",")
+        var startMonths = document.getElementById('startMonths').options
+        for (var i = 0; i < startMonths.length; i++) {
+            if (startMs.includes(startMonths[i].value))
+                startMonths[i].selected = true
+            else
+                startMonths[i].selected = false
+        }
+        var startDs = startTimes[5].split(",")
+        var startDays = document.getElementById('startDoW').options
+        for (var i = 0; i < startDays.length; i++) {
+            if (startDs.includes(startDays[i].value))
+                startDays[i].selected = true
+            else
+                startDays[i].selected = false
+        }
 
         var stopTimes = response.stop.split(" ")
         document.getElementById('stopHours').value = stopTimes[2] == '*' ? "" : stopTimes[2]
         document.getElementById('stopMinutes').value = stopTimes[1] == '*' ? "" : stopTimes[1]
         document.getElementById('stopSeconds').value = stopTimes[0] == '*' ? "" : stopTimes[0]
         document.getElementById('stopDoM').value = stopTimes[3] == '*' ? "" : stopTimes[3]
-        document.getElementById('stopMonths').value = stopTimes[4] == '*' ? "" : stopTimes[4]
-        document.getElementById('stopDoW').value = stopTimes[5] == '*' ? "" : stopTimes[5]
+
+        var stopMs = stopTimes[4].split(",")
+        var stopMonths = document.getElementById('stopMonths').options
+        for (var i = 0; i < stopMonths.length; i++) {
+            if (stopMs.includes(stopMonths[i].value))
+                stopMonths[i].selected = true
+            else
+                stopMonths[i].selected = false
+        }
+        var stopDs = stopTimes[5].split(",")
+        var stopDays = document.getElementById('stopDoW').options
+        for (var i = 0; i < stopDays.length; i++) {
+            if (stopDs.includes(stopDays[i].value))
+                stopDays[i].selected = true
+            else
+                stopDays[i].selected = false
+        }
 
         switch (response.type) {
             case "remote":
