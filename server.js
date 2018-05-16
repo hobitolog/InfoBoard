@@ -126,7 +126,7 @@ app.post('/editSchedule', (req, res) => {
             if (Array.isArray(fields.startDoW))
                 startTime += fields.startDoW.join()
             else
-                startTime += fields.startDow + " "
+                startTime += fields.startDow
         }
         else
             startTime += "*"
@@ -147,7 +147,7 @@ app.post('/editSchedule', (req, res) => {
             if (Array.isArray(fields.stopDoW))
                 stopTime += fields.stopDoW.join()
             else
-                stopTime += fields.stopDow + " "
+                stopTime += fields.stopDow
         }
         else
             stopTime += "*"
@@ -244,7 +244,7 @@ app.post('/addSchedule', (req, res) => {
             if (Array.isArray(fields.startDoW))
                 startTime += fields.startDoW.join()
             else
-                startTime += fields.startDow + " "
+                startTime += fields.startDow
         }
         else
             startTime += "*"
@@ -265,7 +265,7 @@ app.post('/addSchedule', (req, res) => {
             if (Array.isArray(fields.stopDoW))
                 stopTime += fields.stopDoW.join()
             else
-                stopTime += fields.stopDow + " "
+                stopTime += fields.stopDow
         }
         else
             stopTime += "*"
