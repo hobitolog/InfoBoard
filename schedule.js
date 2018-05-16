@@ -136,7 +136,7 @@ function setView(event) {
             showRemote(event)
             break
         case "youtube":
-            el.showYoutube(event.uri)
+            el.showYouTube(event.uri)
             break
         case "video":
             el.showVideo(event.uri)
