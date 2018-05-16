@@ -114,12 +114,20 @@ app.post('/editSchedule', (req, res) => {
             valueOrAsterisk(fields.startMinutes) + " " +
             valueOrAsterisk(fields.startHours) + " " +
             valueOrAsterisk(fields.startDoM) + " "
-        if (fields.startMonths)
-            startTime += fields.startMonths.join() + " "
+        if (fields.startMonths) {
+            if (Array.isArray(fields.startMonths))
+                startTime += fields.startMonths.join() + " "
+            else
+                startTime += fields.startMonths + " "
+        }
         else
             startTime += "* "
-        if (fields.startDoW)
-            startTime += fields.startDoW.join()
+        if (fields.startDoW) {
+            if (Array.isArray(fields.startDoW))
+                startTime += fields.startDoW.join()
+            else
+                startTime += fields.startDow + " "
+        }
         else
             startTime += "*"
 
@@ -127,12 +135,20 @@ app.post('/editSchedule', (req, res) => {
             valueOrAsterisk(fields.stopMinutes) + " " +
             valueOrAsterisk(fields.stopHours) + " " +
             valueOrAsterisk(fields.stopDoM) + " "
-        if (fields.stopMonths)
-            stopTime += fields.stopMonths.join() + " "
+        if (fields.stopMonths) {
+            if (Array.isArray(fields.stopMonths))
+                stopTime += fields.startMonths.join() + " "
+            else
+                stopTime += fields.startMonths + " "
+        }
         else
             stopTime += "* "
-        if (fields.stopDoW)
-            stopTime += fields.stopDoW.join()
+        if (fields.stopDoW) {
+            if (Array.isArray(fields.stopDoW))
+                stopTime += fields.stopDoW.join()
+            else
+                stopTime += fields.stopDow + " "
+        }
         else
             stopTime += "*"
 
@@ -216,12 +232,20 @@ app.post('/addSchedule', (req, res) => {
             valueOrAsterisk(fields.startMinutes) + " " +
             valueOrAsterisk(fields.startHours) + " " +
             valueOrAsterisk(fields.startDoM) + " "
-        if (fields.startMonths)
-            startTime += fields.startMonths.join() + " "
+        if (fields.startMonths) {
+            if (Array.isArray(fields.startMonths))
+                startTime += fields.startMonths.join() + " "
+            else
+                startTime += fields.startMonths + " "
+        }
         else
             startTime += "* "
-        if (fields.startDoW)
-            startTime += fields.startDoW.join()
+        if (fields.startDoW) {
+            if (Array.isArray(fields.startDoW))
+                startTime += fields.startDoW.join()
+            else
+                startTime += fields.startDow + " "
+        }
         else
             startTime += "*"
 
@@ -229,12 +253,20 @@ app.post('/addSchedule', (req, res) => {
             valueOrAsterisk(fields.stopMinutes) + " " +
             valueOrAsterisk(fields.stopHours) + " " +
             valueOrAsterisk(fields.stopDoM) + " "
-        if (fields.stopMonths)
-            stopTime += fields.stopMonths.join() + " "
+        if (fields.stopMonths) {
+            if (Array.isArray(fields.stopMonths))
+                stopTime += fields.startMonths.join() + " "
+            else
+                stopTime += fields.startMonths + " "
+        }
         else
             stopTime += "* "
-        if (fields.stopDoW)
-            stopTime += fields.stopDoW.join()
+        if (fields.stopDoW) {
+            if (Array.isArray(fields.stopDoW))
+                stopTime += fields.stopDoW.join()
+            else
+                stopTime += fields.stopDow + " "
+        }
         else
             stopTime += "*"
 
