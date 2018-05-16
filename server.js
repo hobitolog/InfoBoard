@@ -163,6 +163,7 @@ app.post('/addSchedule', (req, res) => {
     form.multiples = true
 
     form.parse(req, function (err, fields, files) {
+        console.log(fields)
 
         const name = fields.name
 
