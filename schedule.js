@@ -35,7 +35,12 @@ var clock = {
 }
 
 function update(name, event) {
-    removeWithoutFile(name)
+    if(event.uri == "") {
+        event.uri = get(name).uri
+        removeWithoutFile(name)
+    } else {
+        removeWithFile(name)
+    }
     add(event)
     editCronJob(name, event)
 }

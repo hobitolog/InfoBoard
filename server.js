@@ -59,7 +59,6 @@ app.post('/editSchedule', (req, res) => {
     form.multiples = true
 
     form.parse(req, function (err, fields, files) {
-        console.log(fields)
 
         const name = fields.name
 
@@ -179,7 +178,6 @@ app.post('/addSchedule', (req, res) => {
     form.multiples = true
 
     form.parse(req, function (err, fields, files) {
-        console.log(fields)
 
         const name = fields.name
 
@@ -291,8 +289,11 @@ app.listen(80, function () {
 })
 
 function handleFileUpload(file, name) {
+    if(file.name == "")
+        return ""
     const filename = name + "." + file.name.split('.').slice(-1)[0]
-    const filepath = path.join(__dirname, '/uploads', filename)
+    var filepath = path.join(__dirname, '/uploads', filename)
+    filepath = filepath.replace(/\\/g, '/');
     fs.renameSync(file.path, filepath)
     return filepath
 }
