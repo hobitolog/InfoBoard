@@ -137,9 +137,9 @@ app.post('/editSchedule', (req, res) => {
             valueOrAsterisk(fields.stopDoM) + " "
         if (fields.stopMonths) {
             if (Array.isArray(fields.stopMonths))
-                stopTime += fields.startMonths.join() + " "
+                stopTime += fields.stopMonths.join() + " "
             else
-                stopTime += fields.startMonths + " "
+                stopTime += fields.stopMonths + " "
         }
         else
             stopTime += "* "
@@ -255,9 +255,9 @@ app.post('/addSchedule', (req, res) => {
             valueOrAsterisk(fields.stopDoM) + " "
         if (fields.stopMonths) {
             if (Array.isArray(fields.stopMonths))
-                stopTime += fields.startMonths.join() + " "
+                stopTime += fields.stopMonths.join() + " "
             else
-                stopTime += fields.startMonths + " "
+                stopTime += fields.stopMonths + " "
         }
         else
             stopTime += "* "
