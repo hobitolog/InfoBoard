@@ -232,7 +232,6 @@ function createCronJob(event) {
         }
     }
 
-    console.log(event)
     var startJob = new CronJob(event.start == '* * * * * *' ? '0 * * * * *' : event.start, tempStart, tempStop, true, 'Europe/Warsaw')
     startJob.event = event
     startCronJobs.job.push(startJob)
