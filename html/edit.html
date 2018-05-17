@@ -9,6 +9,11 @@
         crossorigin="anonymous">
     <title>InfoBoard</title>
     <script src="js/edit.js"></script>
+    <style>
+        .invalid-feedback {
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
@@ -20,6 +25,7 @@
             <div class="form-group">
                 <label>Name</label>
                 <input type="text" name="name" id="name" class="form-control" placeholder="Name">
+                <div id="nameError" class="invalid-feedback">Nazwa nie może być pusta</div>
             </div>
             <div class="container rounded border">
                 <label>Start Time</label>
@@ -47,13 +53,13 @@
                             <option value="1">February</option>
                             <option value="2">March</option>
                             <option value="3">April</option>
-                            <option value="4">May</option>                            
+                            <option value="4">May</option>
                             <option value="5">June</option>
                             <option value="6">July</option>
                             <option value="7">August</option>
                             <option value="8">September</option>
                             <option value="9">October</option>
-                            <option value="10">November</option>                            
+                            <option value="10">November</option>
                             <option value="11">December</option>
                         </select>
                     </div>
@@ -98,13 +104,13 @@
                             <option value="1">February</option>
                             <option value="2">March</option>
                             <option value="3">April</option>
-                            <option value="4">May</option>                            
+                            <option value="4">May</option>
                             <option value="5">June</option>
                             <option value="6">July</option>
                             <option value="7">August</option>
                             <option value="8">September</option>
                             <option value="9">October</option>
-                            <option value="10">November</option>                            
+                            <option value="10">November</option>
                             <option value="11">December</option>
                         </select>
                     </div>
@@ -174,12 +180,13 @@
             <div class="form-group">
                 <label>Priority</label>
                 <input type="text" id="priority" name="priority" class="form-control" placeholder="1-100">
+                <div id="priorityError" class="invalid-feedback">Priorytet musi być liczbą pomiędzy 1 a 100</div>
             </div>
             <div id="errorAlert" class="alert alert-danger" role="alert" hidden>
             </div>
             <div style="position: relative;">
                 <a class="btn btn-secondary" role="button" href="/">Cancel</a>
-                <input type="submit" class="btn btn-info" value="Save">
+                <input id="submit" type="submit" class="btn btn-info" value="Save">
                 <a id="deleteEvent" class="btn btn-danger" role="button" href="/" style="position: absolute;right:0">Delete</a>
             </div>
         </form>

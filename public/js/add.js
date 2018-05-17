@@ -1,4 +1,8 @@
 var labels
+var validated = {
+    name: false,
+    priority: false
+}
 
 window.onload = function () {
 
@@ -14,7 +18,62 @@ window.onload = function () {
         labels[i].addEventListener("click", onContentChanged)
     }
 
+    document.getElementById('name').addEventListener('keyup', validateName)
+    document.getElementById('priority').addEventListener('keyup', validatePriority)
+    validateName()
+    validatePriority()
     console.log("Init completed")
+}
+
+function validateName() {
+    var allowedChars = "123456789abcdefghijklmnopqrstuvwxyz" +
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ_-."
+    var name = document.getElementById('name')
+    var nameError = document.getElementById('nameError')
+
+    if (!name.value) {
+        nameError.hidden = false
+        nameError.innerText = "Nazwa nie może być pusta"
+        validated.name = false
+        validate()
+        return
+    }
+
+    for (var i = 0; i < name.value.length; i++) {
+        var char = name.value.charAt(i)
+        if (!allowedChars.includes(char)) {
+            nameError.hidden = false
+            nameError.innerText = "Nazwa zawiera niedozwolony znak: '" + char + "'"
+            validated.name = false
+            validate()
+            return
+        }
+    }
+    nameError.hidden = true
+    validated.name = true
+    validate()
+}
+
+function validatePriority() {
+    var priority = document.getElementById('priority')
+    var priorityError = document.getElementById('priorityError')
+    if (!priority.value || isNaN(priority.value)) {
+        priorityError.hidden = false
+        validated.priority = false
+        validate()
+    }
+    else {
+        priorityError.hidden = true
+        validated.priority = true
+        validate()
+    }
+}
+
+function validate() {
+    if (validated.name && validated.priority)
+        document.getElementById('submit').disabled = false
+    else
+        document.getElementById('submit').disabled = true
 }
 
 function onContentChanged() {
