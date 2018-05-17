@@ -141,7 +141,8 @@ function setView(event) {
             showRemote(event)
             break
         case "youtube":
-            el.showYouTube(event.uri)
+            var index = event.uri.indexOf('v=')
+            el.showYouTube(event.uri.substr(index + 2))
             break
         case "video":
             el.showVideo(event.uri)
