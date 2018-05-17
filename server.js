@@ -66,7 +66,7 @@ app.get('/deleteEvent', topSecretAuth, (req, res) => {
 
 app.post('/editSchedule', topSecretAuth, (req, res) => {
 
-    const allowedChars = "123456789abcdefghijklmnopqrstuvwxyz" +
+    const allowedChars = "1234567890abcdefghijklmnopqrstuvwxyz" +
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ_-."
 
     const form = new formidable.IncomingForm()
@@ -185,7 +185,7 @@ app.post('/editSchedule', topSecretAuth, (req, res) => {
 
 app.post('/addSchedule', topSecretAuth, (req, res) => {
 
-    const allowedChars = "123456789abcdefghijklmnopqrstuvwxyz" +
+    const allowedChars = "1234567890abcdefghijklmnopqrstuvwxyz" +
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ_-."
 
     const form = new formidable.IncomingForm()

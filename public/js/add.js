@@ -26,7 +26,7 @@ window.onload = function () {
 }
 
 function validateName() {
-    var allowedChars = "123456789abcdefghijklmnopqrstuvwxyz" +
+    var allowedChars = "1234567890abcdefghijklmnopqrstuvwxyz" +
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ_-."
     var name = document.getElementById('name')
     var nameError = document.getElementById('nameError')
