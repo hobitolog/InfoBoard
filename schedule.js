@@ -238,12 +238,24 @@ function createCronJob(event) {
         }
     }
 
-    var startJob = new CronJob(event.start == '* * * * * *' ? '0 * * * * *' : event.start, tempStart, tempStop, true, 'Europe/Warsaw')
+    var startJob = new CronJob({
+        cronTime: event.start == '* * * * * *' ? '0 * * * * *' : event.start,
+        onTick: tempStart,
+        start: true,
+        onComplete: tempStop,
+        timeZone: 'Europe/Warsaw',
+        runOnInit: event.start == '* * * * * *' ? true : false
+    })
     startJob.event = event
     startCronJobs.job.push(startJob)
 
     if (event.start != '* * * * * *' && event.stop != '* * * * * *') {
-        var stopJob = new CronJob(event.stop, tempStop, undefined, true, 'Europe/Warsaw')
+        var stopJob = new CronJob({
+            cronTime: event.stop,
+            onTick: tempStop,
+            start: true,
+            timeZone: 'Europe/Warsaw'
+    })
         stopJob.event = event
         stopCronJobs.job.push(stopJob)
     }

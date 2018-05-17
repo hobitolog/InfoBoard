@@ -8,7 +8,7 @@ function createWindow() {
     win = new BrowserWindow({
         show: false,
         autoHideMenuBar: true,
-        //kiosk: true
+        kiosk: true
     })
 
     win.once('ready-to-show', () => {
