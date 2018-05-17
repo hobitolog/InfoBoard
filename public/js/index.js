@@ -2,7 +2,15 @@ window.onload = function () {
 
     updateList()
     document.getElementById('CurrentScreen').src = "/currentScreen"
+    document.getElementById('refresh').addEventListener('click', refreshScreen)
     console.log("Init completed")
+}
+
+function refreshScreen() {
+    document.getElementById('CurrentScreen').src = "/img/loading_placeholder.png"
+    setTimeout(function() {
+        document.getElementById('CurrentScreen').src = "/currentScreen?" + new Date()
+    }, 1)
 }
 
 function updateList() {
