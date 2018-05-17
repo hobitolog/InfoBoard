@@ -1,6 +1,7 @@
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
+const auth = require('basic-auth')
 
 const schedule = require('./schedule')
 schedule.load()
@@ -15,41 +16,55 @@ const app = express()
 app.use(express.static(path.join(__dirname, '/public')))
 app.use(morgan('dev'))
 
-app.get('/', (req, res) => {
+function topSecretAuth(req, res, next) {
+    const login = auth(req)
+    //TODO credential from config file
+    if (!login || login.name !== "admin" || login.pass !== "admin") {
+        res.statusCode = 401
+        res.setHeader('WWW-Authenticate', 'Basic realm="admin"')
+        res.end('Access denied')
+        return
+    }
+    else {
+        return next()
+    }
+}
+
+app.get('/', topSecretAuth, (req, res) => {
     res.sendFile(path.join(__dirname, "/html", "index.html"))
 })
 
-app.get('/schedule', (req, res) => {
+app.get('/schedule', topSecretAuth, (req, res) => {
     res.json(schedule.getNameList())
 })
 
-app.get('/addSchedule', (req, res) => {
+app.get('/addSchedule', topSecretAuth, (req, res) => {
     res.sendFile(path.join(__dirname, "/html", "add.html"))
 })
 
-app.get('/editSchedule', (req, res) => {
+app.get('/editSchedule', topSecretAuth, (req, res) => {
     res.sendFile(path.join(__dirname, "/html", "edit.html"))
 })
 
-app.post('/getEvent', (req, res) => {
+app.post('/getEvent', topSecretAuth, (req, res) => {
     const form = new formidable.IncomingForm()
     form.parse(req, function (err, fields, files) {
         return res.json(schedule.getEventByName(fields.name))
     })
 })
-app.get('/currentScreen', (req, res) => {
+app.get('/currentScreen', topSecretAuth, (req, res) => {
 
     electronCallbacks.generateScreenShot(function () {
         res.sendFile(path.join(__dirname, "/uploads", "currentScreen.png"))
     })
 })
 
-app.get('/deleteEvent', (req, res) => {
+app.get('/deleteEvent', topSecretAuth, (req, res) => {
     schedule.removeEvent(req.query["name"])
     res.redirect('/')
 })
 
-app.post('/editSchedule', (req, res) => {
+app.post('/editSchedule', topSecretAuth, (req, res) => {
 
     const allowedChars = "123456789abcdefghijklmnopqrstuvwxyz" +
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ_-."
@@ -146,7 +161,7 @@ app.post('/editSchedule', (req, res) => {
             if (Array.isArray(fields.stopDoW))
                 stopTime += fields.stopDoW.join()
             else
-                stopTime += fields.stopDow
+                stopTime += fields.stopDoW
         }
         else
             stopTime += "*"
@@ -168,7 +183,7 @@ app.post('/editSchedule', (req, res) => {
     })
 })
 
-app.post('/addSchedule', (req, res) => {
+app.post('/addSchedule', topSecretAuth, (req, res) => {
 
     const allowedChars = "123456789abcdefghijklmnopqrstuvwxyz" +
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ_-."
@@ -263,7 +278,7 @@ app.post('/addSchedule', (req, res) => {
             if (Array.isArray(fields.stopDoW))
                 stopTime += fields.stopDoW.join()
             else
-                stopTime += fields.stopDow
+                stopTime += fields.stopDoW
         }
         else
             stopTime += "*"
@@ -284,12 +299,12 @@ app.post('/addSchedule', (req, res) => {
     })
 })
 
-app.listen(80, function () {
+app.listen(6325, function () {
     console.log("Server started")
 })
 
 function handleFileUpload(file, name) {
-    if(file.name == "")
+    if (file.name == "")
         return ""
     const filename = name + "." + file.name.split('.').slice(-1)[0]
     var filepath = path.join(__dirname, '/uploads', filename)
