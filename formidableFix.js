@@ -1,3 +1,7 @@
+// fix to formidable, which handles arrays in forms
+// injected here, as it is an unmerged pull request
+// https://github.com/felixge/node-formidable/pull/340
+
 const formidable = require('formidable')
 
 formidable.IncomingForm.prototype.parse = function (req, cb) {
